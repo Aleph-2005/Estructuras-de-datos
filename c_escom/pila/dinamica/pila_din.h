@@ -10,8 +10,8 @@ struct pila
 };
 
 void init (struct pila*p);
-int isEmpty(struct nodo* tope);
-void push(int l,struct nodo** tope);
-int pop(struct nodo** tope);
-void imprimirpila(struct nodo* tope);
+int isEmpty(struct pila *p);
+void push(int l,struct pila* p);
+int pop(struct pila*p);
+void imprimirpila(struct pila* p);
 

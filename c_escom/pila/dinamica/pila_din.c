@@ -7,35 +7,35 @@ void init(struct pila *p)
     p->tope=NULL;
 }
 
-int isEmpty(struct nodo* tope)
+int isEmpty(struct pila* p)
 {
-    if(tope==NULL)
+    if(p->tope==NULL)
         return 1;
     return 0;
 }
 
-void push(int l,struct nodo**tope)
+void push(int l,struct pila *p)
 {
     struct nodo* nuevo=(struct nodo*)malloc(sizeof(struct nodo));
     nuevo->valor=l;
-    nuevo->siguiente=*tope;
-    *tope=nuevo;
+    nuevo->siguiente=p->tope;
+    p->tope=nuevo;
 }
 
-int pop(struct nodo**tope)
+int pop(struct pila *p)
 {
-    if(isEmpty(*tope))
+    if(isEmpty(p))
         return -1;
-    struct nodo* tmp=*tope;
+    struct nodo* tmp=p->tope;
     int val=tmp->valor;
-    *tope=tmp->siguiente;
+    p->tope=tmp->siguiente;
     free(tmp);
     return val;
 }
 
-void imprimirpila(struct nodo*tope)
+void imprimirpila(struct pila *p)
 {
-    struct nodo* tmp=tope;
+    struct nodo* tmp=p->tope;
     while(tmp!=NULL)
     {
         printf("%d ",tmp->valor);
