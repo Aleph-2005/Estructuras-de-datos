@@ -84,7 +84,7 @@ void imprimirlista(struct lista*p)
             printf("-> %d\n",tmp->dato);
             tmp=tmp->siguiente;
         }
-        printf("->/0");
+        printf("->/0\n");
     }
 }
 

@@ -12,9 +12,8 @@ int main()
         printf(" lista: %d\n",i);
         imprimirlista(&p);
     }
-    insertn(&p,34,1000);
+    insertn(&p,34,8);
     printf("ahora\n");
-    imprimirlista(&p);
     imprimirlista(&p);
     printf("ahora_2\n");
     printf("%d\n",eliminarPosicion(&p,3));
