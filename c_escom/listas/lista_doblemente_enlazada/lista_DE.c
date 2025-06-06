@@ -98,7 +98,7 @@ void imprimirlista(struct lista*p)
             printf("-> %d\n",tmp->dato);
             tmp=tmp->siguiente;
         }
-        printf("->\0");
+        printf("->/0\n");
     }
 }
 
@@ -118,8 +118,6 @@ int eliminarfrente(struct lista* p){
 }
 
 int eliminarFinal(struct lista*p){
-    int valor;
-    
     if (isempty(p))
     {
        printf("NO le sabes");
@@ -129,6 +127,8 @@ int eliminarFinal(struct lista*p){
     struct nodo* tmp=p->final;
     p->final=tmp->anterior;
     (p->final)->siguiente=tmp->siguiente;
+    free(tmp);
+    return valor;
 }
 
 int eliminarPosicion(struct lista* p, int n)
@@ -143,7 +143,7 @@ int eliminarPosicion(struct lista* p, int n)
         eliminarfrente(p);
     int cont=0;
     struct nodo *tmp=p->frente;
-    while((tmp->siguiente!=NULL)&(cont<n-1))
+    while((tmp->siguiente!=NULL)&(cont<=n-1))
     {
         tmp=tmp->siguiente;
         cont++;
@@ -155,10 +155,9 @@ int eliminarPosicion(struct lista* p, int n)
     }
     else
     {
-        struct nodo*aux=tmp->siguiente;
-        int valor=aux->dato;
-        tmp->siguiente=aux->siguiente;
-        free(aux);
+        int valor=tmp->dato;
+        (tmp->siguiente)->anterior=tmp->anterior;
+        (tmp->anterior)->siguiente=tmp->siguiente;
         return valor;
     }
 }

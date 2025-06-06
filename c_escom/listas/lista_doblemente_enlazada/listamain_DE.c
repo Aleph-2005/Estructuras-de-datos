@@ -12,12 +12,19 @@ int main()
         printf(" lista: %d\n",i);
         imprimirlista(&p);
     }
-    insertn(&p,34,1000);
+    insertn(&p,34,9);
     printf("ahora\n");
-    imprimirlista(&p);
     imprimirlista(&p);
     printf("ahora_2\n");
     printf("%d\n",eliminarPosicion(&p,3));
+    imprimirlista(&p);
+    printf("%d\n",eliminarfrente(&p));
+    imprimirlista(&p);
+    printf("%d\n",eliminarFinal(&p));
+    imprimirlista(&p);
+     printf("%d\n",eliminarfrente(&p));
+    imprimirlista(&p);
+    printf("%d\n",eliminarFinal(&p));
     imprimirlista(&p);
     return 0;
 }
