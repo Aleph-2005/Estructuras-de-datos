@@ -81,9 +81,10 @@ void imprimirlista(struct lista*p)
     {
         while(tmp!=NULL)
         {
-            printf("%d\n",tmp->dato);
+            printf("-> %d\n",tmp->dato);
             tmp=tmp->siguiente;
         }
+        printf("->/0");
     }
 }
 
