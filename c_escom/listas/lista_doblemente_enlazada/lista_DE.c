@@ -86,7 +86,7 @@ void insertn(struct lista* p,int valor,int n)
     }
 }
 
-void imprimirlista(struct lista*p)
+void imprimirlista1(struct lista*p)
 {
     struct nodo* tmp=p->frente;
     if(isempty(p))
@@ -102,6 +102,22 @@ void imprimirlista(struct lista*p)
     }
 }
 
+void imprimirlista2(struct lista*p)
+{
+    struct nodo* tmp=p->final;
+    if(isempty(p))
+        printf("Vacio\n");
+    else
+    {
+        while(tmp!=NULL)
+        {
+            printf("-> %d\n",tmp->dato);
+            tmp=tmp->anterior;
+        }
+        printf("->/0\n");
+    }
+}
+
 int eliminarfrente(struct lista* p){
     if (isempty(p))
     {
@@ -111,6 +127,11 @@ int eliminarfrente(struct lista* p){
     int valor =(p->frente)->dato;
     struct nodo* tmp=p->frente;
     p->frente=tmp->siguiente;
+    if(isempty(p))
+    {
+        p->final=NULL;
+        return valor;
+    }
     (p->frente)->anterior=tmp->anterior;
     free(tmp);
 
@@ -123,12 +144,20 @@ int eliminarFinal(struct lista*p){
        printf("NO le sabes");
        return -1;/* code */
     }
+    
     int valor=(p->final)->dato;
     struct nodo* tmp=p->final;
-    p->final=tmp->anterior;
-    (p->final)->siguiente=tmp->siguiente;
-    free(tmp);
-    return valor;
+    if(tmp->anterior==NULL)
+    {
+        eliminarfrente(p);
+    }
+    else
+    {
+        p->final=tmp->anterior;
+        (p->final)->siguiente=tmp->siguiente;
+        free(tmp);
+        return valor;
+    }
 }
 
 int eliminarPosicion(struct lista* p, int n)
