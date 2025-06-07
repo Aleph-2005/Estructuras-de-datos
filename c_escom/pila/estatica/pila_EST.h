@@ -2,10 +2,14 @@
 
 struct pila
 {
-    char ele[MAX];
+    int ele[MAX];
     int tope;
 };
 
-void inicilizar (struct pila *p);
+void inicializar (struct pila *p);
 int isEmpty(struct pila* p);
+int isfull(struct pila *p);
+void push(struct pila *p,int z);
+int pop(struct pila *p);
+void imprimirpila(struct pila *p);
 
