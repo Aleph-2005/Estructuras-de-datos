@@ -95,10 +95,10 @@ void imprimirlista1(struct lista*p)
     {
         while(tmp!=NULL)
         {
-            printf("-> %d\n",tmp->dato);
+            printf("<-> %d\n",tmp->dato);
             tmp=tmp->siguiente;
         }
-        printf("->/0\n");
+        printf("<->/0\n");
     }
 }
 
@@ -111,10 +111,10 @@ void imprimirlista2(struct lista*p)
     {
         while(tmp!=NULL)
         {
-            printf("-> %d\n",tmp->dato);
+            printf("<-> %d\n",tmp->dato);
             tmp=tmp->anterior;
         }
-        printf("->/0\n");
+        printf("<->/0\n");
     }
 }
 
