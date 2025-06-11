@@ -10,7 +10,9 @@ int main()
     {
         insertinicio(&p,i);
     }
+   
     imprimirlista1(&p);
-    imprimirlista2(&p);
+    eliminarPosicion(&p,2);
+    imprimirlista1(&p);
     return 0;
 }

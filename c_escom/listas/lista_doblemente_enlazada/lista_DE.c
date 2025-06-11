@@ -167,9 +167,12 @@ int eliminarPosicion(struct lista* p, int n)
        printf("Lista vacia");
        return -1;  
     }
-    
+    int w;
     if(n==0)
-        eliminarfrente(p);
+    {
+       w=eliminarfrente(p);
+       return w;
+    }
     int cont=0;
     struct nodo *tmp=p->frente;
     while((tmp->siguiente!=NULL)&(cont<=n-1))
@@ -179,14 +182,17 @@ int eliminarPosicion(struct lista* p, int n)
     }
     if(cont<n-1)
     {
-        printf("No se puede eliminar esa posicion");
+        printf("No se puede eliminar\n");
         return -1;
     }
-    else
+    if(tmp->siguiente==NULL)
     {
-        int valor=tmp->dato;
-        (tmp->siguiente)->anterior=tmp->anterior;
-        (tmp->anterior)->siguiente=tmp->siguiente;
-        return valor;
+        w=eliminarFinal(p);
+        return w;
     }
+    w=tmp->dato;
+    (tmp->siguiente)->anterior=tmp->anterior;
+    (tmp->anterior)->siguiente=tmp->siguiente;
+    free(tmp);
+    return w;
 }
