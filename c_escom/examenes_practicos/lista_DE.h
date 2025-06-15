@@ -1,5 +1,6 @@
 struct nodo{
         int dato;
+        char* nombre;
         struct nodo* siguiente;
         struct nodo* anterior;
           
@@ -12,10 +13,10 @@ struct lista{
 
 void init(struct lista* p);
 int isempty(struct lista*p);
-struct nodo* crearnodo(int dato);
-void insertinicio(struct lista*p, int dato);
-void insertfinal(struct lista*p, int dato);
-void insertn(struct lista*p, int dato, int n);
+struct nodo* crearnodo(int dato, char* val);
+void insertinicio(struct lista*p, int dato,char* r);
+void insertfinal(struct lista*p, int dato,char* r);
+void insertn(struct lista*p, int dato, int n,char *r);
 void imprimirlista1(struct lista*p);
 void imprimirlista2(struct lista*p);
 int eliminarfrente(struct lista*p);

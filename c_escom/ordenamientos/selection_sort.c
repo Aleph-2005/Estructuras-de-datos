@@ -32,7 +32,7 @@ void selectionsort(char A[5])
         }
         swap((A+i),(A+l));/*Al encontra el elemento menor
         simplemente lo intercambiamos con la posicion i_esima
-        de nuestro arreglo, pues es primera*/
+        de nuestro arreglo, pues es primero*/
     }
 }
 void imprimirarreglo(char c[5])/*imprime un arreglo de

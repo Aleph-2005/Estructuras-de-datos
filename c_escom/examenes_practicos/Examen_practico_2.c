@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "lista_DE.h"
 
 void init (struct lista* p)
@@ -15,18 +16,19 @@ int isempty(struct lista* p)
     return 0;
 }
 
-struct nodo* crearnodo(int dat)
+struct nodo* crearnodo(int dat,char* val)
 {
     struct nodo* nuevo=(struct nodo*)malloc(sizeof(struct nodo));
     nuevo->dato=dat;
+    nuevo->nombre=strdup(val);
     nuevo->siguiente=NULL;
     nuevo->anterior=NULL;
     return nuevo;
 }
 
-void insertinicio(struct lista* p,int valor)
+void insertinicio(struct lista* p,int valor,char* r)
 {
-    struct nodo* nuevo=crearnodo(valor);
+    struct nodo* nuevo=crearnodo(valor,r);
     if(isempty(p))
     {
         p->frente=nuevo;
@@ -40,9 +42,9 @@ void insertinicio(struct lista* p,int valor)
     }
 }
 
-void insertfinal(struct lista* p,int valor)
+void insertfinal(struct lista* p,int valor, char* r)
 {
-    struct nodo*nuevo=crearnodo(valor);
+    struct nodo*nuevo=crearnodo(valor,r);
     if(isempty(p))
     {
         p->frente=nuevo;
@@ -56,9 +58,9 @@ void insertfinal(struct lista* p,int valor)
     }
 }
 
-void insertn(struct lista* p,int valor,int n)
+void insertn(struct lista* p,int valor,int n, char* r)
 {
-    struct nodo*nuevo=crearnodo(valor);
+    struct nodo*nuevo=crearnodo(valor,r);
     if(isempty(p))
     {
         p->frente=nuevo;
@@ -95,7 +97,7 @@ void imprimirlista1(struct lista*p)
     {
         while(tmp!=NULL)
         {
-            printf("<-> %d\n",tmp->dato);
+            printf("<-> %d %s\n",tmp->dato, tmp->nombre);
             tmp=tmp->siguiente;
         }
         printf("<->/0\n");
@@ -111,7 +113,7 @@ void imprimirlista2(struct lista*p)
     {
         while(tmp!=NULL)
         {
-            printf("<-> %d\n",tmp->dato);
+            printf("<-> %d %s\n",tmp->dato,tmp->nombre);
             tmp=tmp->anterior;
         }
         printf("<->/0\n");
