@@ -1,24 +1,28 @@
 #include <stdio.h>
-#include "pila_char.h"
+#include "pila_char_ptr.h"
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
 
 int leer_exp(const char* expr, int i, char* token) {
-    if (*(expr+i) == '-' && *(expr+i+1) == '>') {
+    if (*(expr+i) == '-' && *(expr+i+1) == '>') 
+    {
         strcpy(token, "->");
         return 2;
     }
-    if (*(expr+i) == '<' && *(expr+i+1) == '-' && *(expr+i+2) == '>') {
+    if (*(expr+i) == '<' && *(expr+i+1) == '-' && *(expr+i+2) == '>') 
+    {
         strcpy(token, "<->");
         return 3;
     }
-    if (*(expr+i) == '&' || *(expr+i) == '|' || *(expr+i) == '!' || *(expr+i) == '(' || *(expr+i) == ')') {
+    if (*(expr+i) == '&' || *(expr+i) == '|' || *(expr+i) == '!' || *(expr+i) == '(' || *(expr+i) == ')') 
+    {
         *token = *(expr+i);
         *(token+1) = '\0';
         return 1;
     }
-    if (isalpha(*(expr+i))) {
+    if (isalpha(*(expr+i))) 
+    {
         *token = *(expr+i);
         *(token+1) = '\0';
         return 1;
@@ -36,7 +40,7 @@ void imprimir(char*token[1000])
     }
 }
 
-void leer(char* l,char** token)
+int leer(char* l,char** token)
 {
     int c=0;
     int i=0;
@@ -45,28 +49,80 @@ void leer(char* l,char** token)
         token[i] = (char*)malloc(10* sizeof(char));
        int acarreo=leer_exp(l,c,token[i]);
        if(acarreo==0)
-       {
-            printf("Entrada invalida");
-            break;
-       }
+            return 0;
        c+=acarreo;
        i++;
     }
      token[i]=NULL;
+     return 1;
 }
 
-int prioridad_str(const char* op) 
+int prioridad(const char* op) 
 {
     if (strcmp(op, "!") == 0) return 5;
     if (strcmp(op, "&") == 0) return 4;
     if (strcmp(op, "|") == 0) return 3;
     if (strcmp(op, "->") == 0) return 2;
     if (strcmp(op, "<->") == 0) return 1;
-    if(strcmp(op,"(")==0) return 0;
-    if(strcmp(op,")")) return -1;
+    if(strcmp(op,")")==0) return 0;
+    if(strcmp(op,"(")==0) return -1;
     return -2;
 }
 
+void vaciar(struct pila* p, char** new, int* r) 
+{
+    while (!isEmpty(p)) 
+    {
+        new[(*r)++] = pop(p);
+    }
+}
+
+void vaciar1(struct pila *p,char **new,int* r)
+{
+    while((!isEmpty(p))&&(strcmp((p->tope)->valor,"(")!=0))
+    {
+        new[(*r)++]=pop(p);
+    }
+    pop(p);
+}
+
+void vaciar2(struct pila *p,char **new,int* r,int dom)
+{
+    while((!isEmpty(p))&&prioridad((p->tope)->valor)>=dom)
+    {
+        new[(*r)++]=pop(p);
+    }
+}
+
+void shuntingyard(char** cad,struct pila* p,char** new)
+{
+    int i=0;
+    int r=0;
+    while(*(cad+i))
+    {
+        if(isalpha(**(cad+i)))
+        {
+            *(new+r)=*(cad+i);
+            r++;
+        }
+        else
+        {   
+            if(prioridad(*(cad+i))==0)
+                vaciar1(p,new,&r);
+            else if(prioridad(*(cad+i))==-1)
+                push(*(cad+i),p);
+            else 
+            {
+                vaciar2(p,new,&r,prioridad(*(cad+i)));
+                push(*(cad+i), p);
+            }
+
+        }            
+        i++;
+    }
+    vaciar(p,new,&r);
+    new[r]=NULL;
+}
 
 int main()
 {
@@ -74,7 +130,14 @@ int main()
     init(&p);
     char l[1000];
     char* new[1000];
+    char* new2[1000];
     scanf("%s",l);
-    leer(l,new);
-    imprimir(new);
+    if(leer(l,new)!=0)
+    {
+        shuntingyard(new,&p,new2);
+        imprimir(new2);
+        destroy(&p);
+    }
+    else
+        printf("Entrada invalida");
 }
