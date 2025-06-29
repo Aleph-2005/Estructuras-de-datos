@@ -8,4 +8,6 @@
     for(int i=0;i<5;i++)
         push(i,&p);
     imprimirpila(&p);
+    printf("%d\n",pop(&p));
+
  }

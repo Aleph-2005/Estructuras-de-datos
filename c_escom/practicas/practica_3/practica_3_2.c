@@ -87,7 +87,7 @@ void polaca(char cad[13])
             push(*(cad+i));
             if((*(cad+i)!='(')&(*(cad+i)!=')'))
             {
-            temp=*(cad+i);
+                temp=*(cad+i);
             }
         }
     }
