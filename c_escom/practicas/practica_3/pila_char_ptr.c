@@ -18,7 +18,7 @@ int isEmpty(struct pila* p)
 void push(char* l,struct pila *p)
 {
     struct nodo* nuevo=(struct nodo*)malloc(sizeof(struct nodo));
-    nuevo->valor=strdup(l);
+    nuevo->valor=l;
     nuevo->siguiente=p->tope;
     p->tope=nuevo;
 }
@@ -34,21 +34,3 @@ char* pop(struct pila *p)
     return val;
 }
 
-void imprimirpila(struct pila *p)
-{
-    struct nodo* tmp=p->tope;
-    while(tmp!=NULL)
-    {
-        printf("%s ",tmp->valor);
-        tmp=tmp->siguiente;
-    }
-}
-
-void destroy(struct pila *p) 
-{
-    while (!isEmpty(p)) 
-    {
-        char* val = pop(p);
-        free(val);  // Liberamos la cadena
-    }
-}

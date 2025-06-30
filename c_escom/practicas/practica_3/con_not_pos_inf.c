@@ -1,56 +1,121 @@
 #include <stdio.h>
-#include "pila_char.h"
+#include "pila_char_ptr.h"
+#include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 
-int prioridad(char l)
-{
-    if((l=='+')||(l=='-'))
-        return 1;
-    if((l=='*')||(l=='/'))
+int leer_exp(const char* expr, int i, char* token) {
+    if (*(expr+i) == 's' && *(expr+i+1) == 'e' && *(expr+i+2)=='n' && *(expr+i+3)=='(') 
+    {
+        strcpy(token, "sen");
+        return 3;
+    }
+    if (*(expr+i) == 'c' && *(expr+i+1) == 'o' && *(expr+i+2) == 's'&& *(expr+i+3)=='(') 
+    {
+        strcpy(token, "cos");
+        return 3;
+    }
+    if(*(expr+i)=='l' && *(expr+i+1)=='n' && *(expr+i+2)=='(')
+    {
+        strcpy(token,"ln");
         return 2;
-    if(l==')')
-        return 0;
-    if(l=='(')
-        return -1;
-    return -2;
+    }
+    if (*(expr+i) == '+' || *(expr+i) == '-' || *(expr+i) == '*' || *(expr+i) == '(' || *(expr+i) == ')'||*(expr+i) == '/' || *(expr+i) == '^'|| *(expr+i)=='x' ) 
+    {
+        *token = *(expr+i);
+        *(token+1) = '\0';
+        return 1;
+    }
+    if (isalpha(*(expr+i))||isdigit(*(expr+i)) )
+    {
+        *token = *(expr+i);
+        *(token+1) = '\0';
+        return 1;
+    }
+    return 0;
 }
 
-void vaciar1(struct pila *p,char *new,int* r)
+void imprimir(char*token[1000])
 {
-    while((!isEmpty(p))&&(p->tope)->valor!='(')
+    int i=0;
+    while(token[i])
     {
-        *(new+*r)=pop(p);
-        *r=*r+1;
+        printf("%s ",token[i]);
+        i++;
+    }
+}
+
+int leer(char* l,char** token)
+{
+    int c=0;
+    int i=0;
+    while(*(l+c))
+    {
+        token[i] = (char*)malloc(10* sizeof(char));
+       int acarreo=leer_exp(l,c,token[i]);
+       if(acarreo==0)
+            return 0;
+       c+=acarreo;
+       i++;
+    }
+     token[i]=NULL;
+     return 1;
+}
+
+int prioridad(const char* op) 
+{
+    if (strcmp(op, "^") == 0) return 3;
+    if (strcmp(op, "/") == 0 || strcmp(op,"*")==0) return 2;
+    if (strcmp(op, "+") == 0 || strcmp(op,"-")==0) return 1;
+    if(strcmp(op,")")==0) return 0;
+    if(strcmp(op,"(")==0) return -1;
+    if(strcmp(op,"sen")==0 || strcmp(op,"cos")==0 || strcmp(op,"ln")==0 ) return -2;
+    return -3;
+}
+
+void vaciar(struct pila* p, char** new, int* r) 
+{
+    while (!isEmpty(p)) 
+    {
+        new[(*r)++] = pop(p);
+    }
+}
+
+void vaciar1(struct pila *p,char **new,int* r)
+{
+    while((!isEmpty(p))&&(strcmp((p->tope)->valor,"(")!=0))
+    {
+        new[(*r)++]=pop(p);
     }
     pop(p);
+    if(!isEmpty(p) && prioridad(p->tope->valor)==-2)
+        new[(*r)++]=pop(p);
 }
 
-void vaciar2(struct pila *p,char *new,int* r,int dom)
+void vaciar2(struct pila *p,char **new,int* r,int dom)
 {
     while((!isEmpty(p))&&prioridad((p->tope)->valor)>=dom)
     {
-        *(new+*r)=pop(p);
-        *r=*r+1;
+        new[(*r)++]=pop(p);
     }
 }
 
-void polaca(char* cad,struct pila* p,char* new)
+void shuntingyard(char** cad,struct pila* p,char** new)
 {
     int i=0;
     int r=0;
     while(*(cad+i))
     {
-        if(isdigit(*(cad+i)))
+        if((isalpha(**(cad+i))|| isdigit(**(cad+i)) )&& prioridad(*(cad+i))!=-2)
         {
             *(new+r)=*(cad+i);
             r++;
         }
         else
         {   
-           
             if(prioridad(*(cad+i))==0)
                 vaciar1(p,new,&r);
-            else if(prioridad(*(cad+i))==-1)
+            else if(prioridad(*(cad+i))==-1||prioridad(*(cad+i))==-2)
                 push(*(cad+i),p);
             else 
             {
@@ -62,7 +127,7 @@ void polaca(char* cad,struct pila* p,char* new)
         i++;
     }
     vaciar(p,new,&r);
-    *(new+r)='\0';
+    new[r]=NULL;
 }
 
 int main()
@@ -70,9 +135,16 @@ int main()
     struct pila p;
     init(&p);
     char l[1000];
-    char new[1000];
+    char* new[1000];
+    char* new2[1000];
+    printf("Dame la funcion que quieres derivar\n");
     scanf("%s",l);
-    printf("Antes: %s\n",l);
-    polaca(l,&p,new);
-    printf("Despues: %s\n",new);
+    if(leer(l,new)!=0)
+    {
+        shuntingyard(new,&p,new2);
+        printf("Notacion postfija\n");
+        imprimir(new2);
+    }
+    else
+        printf("Entrada invalida");
 }
