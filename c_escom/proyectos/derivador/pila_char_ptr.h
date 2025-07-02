@@ -1,6 +1,6 @@
 struct nodo 
 {
-    char* valor;
+    void* valor;
     struct nodo *siguiente;
 };
 
@@ -11,5 +11,5 @@ struct pila
 
 void init (struct pila*p);
 int isEmpty(struct pila *p);
-void push(char* l,struct pila* p);
-char* pop(struct pila*p);
+void push(void* l,struct pila* p);
+void* pop(struct pila*p);

@@ -3,24 +3,25 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include "arbol.h"
 
-int leer_exp(const char* expr, int i, char* token) {
-    if (*(expr+i) == 's' && *(expr+i+1) == 'e' && *(expr+i+2)=='n' && *(expr+i+3)=='(') 
+int leer_exp(char* expr, int i, char* token) {
+    if (strncmp(expr+i,"sen(",4)==0)
     {
         strcpy(token, "sen");
         return 3;
     }
-    if (*(expr+i) == 'c' && *(expr+i+1) == 'o' && *(expr+i+2) == 's'&& *(expr+i+3)=='(') 
+    if (strncmp(expr+i,"cos(",4)==0)
     {
         strcpy(token, "cos");
         return 3;
     }
-    if(*(expr+i)=='l' && *(expr+i+1)=='n' && *(expr+i+2)=='(')
+    if(strncmp(expr+i,"ln(",3)==0)
     {
         strcpy(token,"ln");
         return 2;
     }
-    if (*(expr+i) == '+' || *(expr+i) == '-' || *(expr+i) == '*' || *(expr+i) == '(' || *(expr+i) == ')'||*(expr+i) == '/' || *(expr+i) == '^'|| *(expr+i)=='x' ) 
+    if (strchr("+-/*^()x",*(expr+i))) 
     {
         *token = *(expr+i);
         *(token+1) = '\0';
@@ -85,18 +86,18 @@ void vaciar1(struct pila *p,char **new,int* r)
 {
     while((!isEmpty(p))&&(strcmp((p->tope)->valor,"(")!=0))
     {
-        new[(*r)++]=pop(p);
+        new[(*r)++]=(char*)pop(p);
     }
     pop(p);
     if(!isEmpty(p) && prioridad(p->tope->valor)==-2)
-        new[(*r)++]=pop(p);
+        new[(*r)++]=(char*)pop(p);
 }
 
 void vaciar2(struct pila *p,char **new,int* r,int dom)
 {
     while((!isEmpty(p))&&prioridad((p->tope)->valor)>=dom)
     {
-        new[(*r)++]=pop(p);
+        new[(*r)++]=(char*)pop(p);
     }
 }
 
@@ -130,6 +131,16 @@ void shuntingyard(char** cad,struct pila* p,char** new)
     new[r]=NULL;
 }
 
+void liberar(char* new[])
+{
+    int i=0;
+    while(*(new+i))
+    {
+        free(*(new+i));
+        i++;
+    }
+}
+
 int main()
 {
     struct pila p;
@@ -142,8 +153,14 @@ int main()
     if(leer(l,new)!=0)
     {
         shuntingyard(new,&p,new2);
+        struct nodoarbol* raiz=construir_arbol_postfijo(new2);
         printf("Notacion postfija\n");
         imprimir(new2);
+        printf("\n");
+        printf("Notacion infija reconstruida por el arbol\n");
+        imprimir_infijo(raiz);
+        liberararb(raiz);
+        liberar(new);
     }
     else
         printf("Entrada invalida");

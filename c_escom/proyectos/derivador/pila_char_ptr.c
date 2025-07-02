@@ -15,7 +15,7 @@ int isEmpty(struct pila* p)
     return 0;
 }
 
-void push(char* l,struct pila *p)
+void push(void* l,struct pila *p)
 {
     struct nodo* nuevo=(struct nodo*)malloc(sizeof(struct nodo));
     nuevo->valor=l;
@@ -23,12 +23,12 @@ void push(char* l,struct pila *p)
     p->tope=nuevo;
 }
 
-char* pop(struct pila *p)
+void* pop(struct pila *p)
 {
     if(isEmpty(p))
         return NULL;
     struct nodo* tmp=p->tope;
-    char* val=tmp->valor;
+    void* val=tmp->valor;
     p->tope=tmp->siguiente;
     free(tmp);
     return val;
