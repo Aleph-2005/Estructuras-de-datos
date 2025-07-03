@@ -140,7 +140,7 @@ struct nodoarbol* derivada(struct nodoarbol* raiz)
         struct nodoarbol* f=crearnodoarbolbinario("*",derivada(raiz->izq),raiz->der);
         struct nodoarbol* g=crearnodoarbolbinario("*",raiz->izq,derivada(raiz->der));
         struct nodoarbol* l=crearnodoarbolbinario("-",f,g);
-        return crearnodoarbolbinario("/",l,crearnodoarbolbinario("^",raiz->izq,crearnodoarbol("2")));
+        return crearnodoarbolbinario("/",l,crearnodoarbolbinario("^",raiz->der,crearnodoarbol("2")));
     }
     if (strcmp(raiz->valor, "^") == 0) {
     if (strcmp(raiz->izq->valor, "x") == 0 && isdigit(*(raiz->der->valor)) )
