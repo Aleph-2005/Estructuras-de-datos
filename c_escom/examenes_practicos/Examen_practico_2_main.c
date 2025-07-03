@@ -23,7 +23,7 @@ void bubblesort(struct lista *p)
        {
            if((tmp_2->dato)<((tmp_2->siguiente)->dato))
            {    
-            swap(tmp_2);
+                swap(tmp_2);
            }
            tmp_2=tmp_2->siguiente;
        }
