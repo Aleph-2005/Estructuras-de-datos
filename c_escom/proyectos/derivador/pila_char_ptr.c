@@ -1,6 +1,5 @@
 # include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 # include "pila_char_ptr.h"
 
 void init(struct pila *p)
@@ -33,4 +32,3 @@ void* pop(struct pila *p)
     free(tmp);
     return val;
 }
-
