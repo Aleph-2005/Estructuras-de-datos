@@ -97,12 +97,18 @@ struct nodoarbol* copiar_subarbol(struct nodoarbol* raiz)
     cop->der=copiar_subarbol(raiz->der);
     return cop;
 }
+int esfuncion(char* l)
+{
+    if(strcmp(l,"x")==0|| strcmp(l,"cos")==0 || strcmp(l,"sen")==0 || strcmp(l,"ln")==0)
+        return 1;
+    return 0;
+}
 
 struct nodoarbol* derivada(struct nodoarbol* raiz)
 {
     if(!raiz)
         return NULL;
-    if(isdigit(*(raiz->valor)))
+    if(isdigit(*(raiz->valor)) || (isalpha(*(raiz->valor)) && !esfuncion(raiz->valor)))
         return crearnodoarbolbinario("0",NULL,NULL);
     if(strcmp(raiz->valor,"x")==0)
         return crearnodoarbolbinario("1",NULL,NULL);
@@ -131,8 +137,8 @@ struct nodoarbol* derivada(struct nodoarbol* raiz)
     }
     if(strcmp(raiz->valor,"*")==0)
     {
-        struct nodoarbol* f=crearnodoarbolbinario("*",derivada(raiz->izq),raiz->der);
-        struct nodoarbol* g=crearnodoarbolbinario("*",raiz->izq,derivada(raiz->der));
+        struct nodoarbol* f=crearnodoarbolbinario("*",derivada(raiz->izq),copiar_subarbol(raiz->der));
+        struct nodoarbol* g=crearnodoarbolbinario("*",copiar_subarbol(raiz->izq),derivada(raiz->der));
         return crearnodoarbolbinario("+",f,g);
     }
     if(strcmp(raiz->valor,"/")==0)
