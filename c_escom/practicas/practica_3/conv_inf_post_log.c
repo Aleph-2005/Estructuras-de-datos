@@ -135,8 +135,8 @@ int main()
     if(leer(l,new)!=0)
     {
         shuntingyard(new,&p,new2);
+        printf("Notacion postfija\n");
         imprimir(new2);
-        destroy(&p);
     }
     else
         printf("Entrada invalida");

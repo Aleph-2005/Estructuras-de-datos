@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include "pila_char_ptr.h"
 #include <string.h>
-#include "arbol.h"
-#include "shunting_yard.h"
-#include "leer_entrada.h"
+#include "shunting_yard_prop.h"
+#include "leer_prop.h"
 
 int main()
 {
@@ -12,18 +11,13 @@ int main()
     char l[1000];
     char* new[1000];
     char* new2[1000];
-    printf("Dame la funcion que quieres derivar\n");
+    printf("dame tu proposicion\n");
     scanf("%s",l);
     if(leer(l,new)!=0)
     {
         shuntingyard(new,&p,new2);
-        struct nodoarbol* raiz=construir_arbol_postfijo(new2);
-        printf("Notacion postfija:\n");
+        printf("Notacion postfija\n");
         imprimir(new2);
-        printf("\n");
-        printf("Derivada:\n");
-        imprimir_infijo(derivada(raiz));
-        liberararb(raiz);
         liberar(new);
         liberar(new2);
     }

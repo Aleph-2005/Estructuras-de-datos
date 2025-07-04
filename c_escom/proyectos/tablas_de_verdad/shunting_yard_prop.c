@@ -2,17 +2,18 @@
 #include "pila_char_ptr.h"
 #include <string.h>
 #include <ctype.h>
-#include "shunting_yard.h"
+#include "shunting_yard_prop.h"
 
 int prioridad(const char* op) 
 {
-    if (strcmp(op, "^") == 0) return 3;
-    if (strcmp(op, "/") == 0 || strcmp(op,"*")==0) return 2;
-    if (strcmp(op, "+") == 0 || strcmp(op,"-")==0) return 1;
+    if (strcmp(op, "!") == 0) return 5;
+    if (strcmp(op, "&") == 0) return 4;
+    if (strcmp(op, "|") == 0) return 3;
+    if (strcmp(op, "->") == 0) return 2;
+    if (strcmp(op, "<->") == 0) return 1;
     if(strcmp(op,")")==0) return 0;
     if(strcmp(op,"(")==0) return -1;
-    if(strcmp(op,"sen")==0 || strcmp(op,"cos")==0 || strcmp(op,"ln")==0 ) return -2;
-    return -3;
+    return -2;
 }
 
 void vaciar(struct pila* p, char** n, int* r) 
@@ -30,8 +31,6 @@ void vaciar1(struct pila *p,char **n,int* r)
         n[(*r)++]=(char*)pop(p);
     }
     pop(p);
-    if(!isEmpty(p) && prioridad(p->tope->valor)==-2)
-        n[(*r)++]=(char*)pop(p);
 }
 
 void vaciar2(struct pila *p,char **n,int* r,int dom)
@@ -48,7 +47,7 @@ void shuntingyard(char** cad,struct pila* p,char** n)
     int r=0;
     while(*(cad+i))
     {
-        if((isalpha(**(cad+i))|| isdigit(**(cad+i)) )&& prioridad(*(cad+i))!=-2)
+        if(isalpha(**(cad+i)))
         {
             *(n+r)=*(cad+i);
             r++;
@@ -57,7 +56,7 @@ void shuntingyard(char** cad,struct pila* p,char** n)
         {   
             if(prioridad(*(cad+i))==0)
                 vaciar1(p,n,&r);
-            else if(prioridad(*(cad+i))==-1||prioridad(*(cad+i))==-2)
+            else if(prioridad(*(cad+i))==-1)
                 push(*(cad+i),p);
             else 
             {

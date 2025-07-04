@@ -1,0 +1,4 @@
+int leer_exp(const char* expr, int i, char* token);
+void imprimir(char*token[1000]);
+int leer(char* l,char** token);
+void liberar(char* n[]);
