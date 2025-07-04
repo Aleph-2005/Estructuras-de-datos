@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "leer_entrada.h"
+#include "pila_char_ptr.h"
 
 int leer_exp(char* expr, int i, char* token) 
 {
@@ -87,4 +88,43 @@ void liberar(char* n[])
         free(*(n+i));
         i++;
     }
+}
+
+int parentesis(char **C)
+{
+    struct pila p;
+    init(&p);
+    while(*C)/*mientras el valor de la
+    isesima posicion sea diferenete de NULL*/
+    
+    {
+        if (strcmp(*C,"(")==0)
+        /*si lo apuntado es un parentesis
+        de abertura apilamos*/
+        {
+            push(*C,&p);
+        }
+        if(strcmp(*C,")")==0)
+         /*si lo apuntado es un parentesis
+        de cierre desapilamos
+        */
+        {
+            if(!pop(&p))
+             /*si dessapilamos una pila
+             vacia retornamos 0*/
+            {
+                return 0;
+            }
+        }
+        C++;
+    }
+    if (isEmpty(&p))
+    {
+        return 1;
+        /*si la pila esta vacia
+        retornamos 1*/
+    }
+
+    return 0;
+    //si no retornamos 0
 }

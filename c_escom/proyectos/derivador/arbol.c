@@ -158,5 +158,12 @@ struct nodoarbol* derivada(struct nodoarbol* raiz)
         struct nodoarbol* potencia = crearnodoarbolbinario("^", copiar_subarbol(raiz->izq), crearnodoarbol(nuevo_exponente));
         return crearnodoarbolbinario("*", coef, potencia);
     }
+
+    if(esfuncion(raiz->der->valor) && esfuncion(raiz->izq->valor))
+    {
+        struct nodoarbol* l=crearnodoarbolbinario("ln",copiar_subarbol(raiz->izq),NULL);
+        struct nodoarbol* r=crearnodoarbolbinario("*",l,raiz->der);
+        return crearnodoarbolbinario("*",derivada(r),raiz);
+    }
 }
 }

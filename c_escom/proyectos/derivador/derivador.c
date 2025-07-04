@@ -14,7 +14,7 @@ int main()
     char* new2[1000];
     printf("Dame la funcion que quieres derivar\n");
     scanf("%s",l);
-    if(leer(l,new)!=0)
+    if(leer(l,new) && parentesis(new))
     {
         shuntingyard(new,&p,new2);
         struct nodoarbol* raiz=construir_arbol_postfijo(new2);
