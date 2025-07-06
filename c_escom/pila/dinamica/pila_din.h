@@ -1,6 +1,6 @@
 struct nodo 
 {
-    int valor;
+    void* valor;
     struct nodo *siguiente;
 };
 
@@ -11,7 +11,9 @@ struct pila
 
 void init (struct pila*p);
 int isEmpty(struct pila *p);
-void push(int l,struct pila* p);
-int pop(struct pila*p);
-void imprimirpila(struct pila* p);
+void push(void* l,struct pila* p);
+void *pop(struct pila*p);
+void printstack(struct pila* p,void (print_tp)(void *));
+void destroy(struct pila *p);
+
 

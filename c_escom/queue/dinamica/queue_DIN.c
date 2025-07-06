@@ -15,7 +15,7 @@ int isempty(struct queue* p)
     return 0;
 }
 
-void encolar(struct queue* p, int z)
+void encolar(struct queue* p, void* z)
 {
     struct Nodo* nuevo=(struct Nodo*)malloc(sizeof(struct Nodo));
     nuevo->dato=z;
@@ -32,14 +32,14 @@ void encolar(struct queue* p, int z)
     }
 }
 
-int desencolar(struct queue* p)
+void* desencolar(struct queue* p)
 {
     if(isempty(p))
-        return -1;
+        return NULL;
     else
     {
          struct Nodo* tmp=p->frente;
-         int z=tmp->dato;
+         void* z=tmp->dato;
          p->frente=tmp->siguiente;
          if(p->frente==NULL)
             p->final=p->frente;
@@ -48,17 +48,17 @@ int desencolar(struct queue* p)
     }
 }
 
-void imprimircola(struct queue* p)
+void imprimircola(struct queue* p,void (print_tp)(void*))
 {
     struct Nodo* nuevo=p->frente;
     if(isempty(p))
         printf("vacio\n");
     else
     {
-    while (nuevo!=NULL)
-    {
-        printf("%d\n",nuevo->dato);
-        nuevo=nuevo->siguiente;
-    }
+        while (nuevo!=NULL)
+        {
+            print_tp(nuevo->dato);
+            nuevo=nuevo->siguiente;
+        }
     }
 }

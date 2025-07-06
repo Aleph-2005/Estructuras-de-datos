@@ -6,7 +6,7 @@ void inicializar(struct pila *p)
     p->tope=-1;
 }
 
-int isempty(struct pila *p)
+int isEmpty(struct pila *p)
 {
     if(p->tope==-1)
         return 1;
@@ -21,7 +21,7 @@ int  isfull(struct pila *p)
     
 }
 
-void push(struct pila *p, int val)
+void push(struct pila *p, void* val)
 {
     if(isfull(p))
         printf("La pila esta llena");
@@ -29,20 +29,25 @@ void push(struct pila *p, int val)
         p->ele[++(p->tope)]=val;
 }
 
-int pop(struct pila *p)
+void* pop(struct pila *p)
 {
-    if(isempty(p))
+    if(isEmpty(p))
         printf("La pila esta vacia");
-    int valor=p->ele[p->tope];
+    void * valor=p->ele[p->tope];
     p->ele[p->tope]=0;
     p->tope--;
     return valor;
 }
 
-void imprimirpila(struct pila *p)
+void imprimirpila(struct pila *p,void (print_tp)(void *))
 {
-    for(int i=p->tope;i>-1;i--)
+    if(isEmpty(p))
+        printf("Vacia\n");
+    else
     {
-        printf("%d\n",p->ele[i]);
+        for(int i=p->tope;i>-1;i--)
+        {
+            print_tp(p->ele[i]);
+        }
     }
 }

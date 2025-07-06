@@ -14,7 +14,7 @@ int isEmpty(struct pila* p)
     return 0;
 }
 
-void push(int l,struct pila *p)
+void push(void* l,struct pila *p)
 {
     struct nodo* nuevo=(struct nodo*)malloc(sizeof(struct nodo));
     nuevo->valor=l;
@@ -22,23 +22,34 @@ void push(int l,struct pila *p)
     p->tope=nuevo;
 }
 
-int pop(struct pila *p)
+void* pop(struct pila *p)
 {
     if(isEmpty(p))
-        return -1;
+        return NULL;
     struct nodo* tmp=p->tope;
-    int val=tmp->valor;
+    void* val=tmp->valor;
     p->tope=tmp->siguiente;
     free(tmp);
     return val;
 }
 
-void imprimirpila(struct pila *p)
+void printstack(struct pila *p,void (print_tp)(void *))
 {
-    struct nodo* tmp=p->tope;
-    while(tmp!=NULL)
+    if(isEmpty(p))
+        printf("Vacio\n");
+    else
     {
-        printf("%d ",tmp->valor);
-        tmp=tmp->siguiente;
+        struct nodo* tmp=p->tope;
+        while(tmp!=NULL)
+        {
+            print_tp(tmp->valor);
+            tmp=tmp->siguiente;
+        }
     }
+}
+
+void destroy (struct pila *p)
+{
+    while(!isEmpty(p))
+        pop(p);
 }
