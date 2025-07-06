@@ -148,7 +148,8 @@ struct nodoarbol* derivada(struct nodoarbol* raiz)
         struct nodoarbol* l=crearnodoarbolbinario("-",f,g);
         return crearnodoarbolbinario("/",l,crearnodoarbolbinario("^",raiz->der,crearnodoarbol("2")));
     }
-    if (strcmp(raiz->valor, "^") == 0) {
+    if (strcmp(raiz->valor, "^") == 0) 
+    {
     if (strcmp(raiz->izq->valor, "x") == 0 && isdigit(*(raiz->der->valor)) )
     {
         int n = atoi(raiz->der->valor);
@@ -165,5 +166,5 @@ struct nodoarbol* derivada(struct nodoarbol* raiz)
         struct nodoarbol* r=crearnodoarbolbinario("*",l,raiz->der);
         return crearnodoarbolbinario("*",derivada(r),raiz);
     }
-}
+    }
 }

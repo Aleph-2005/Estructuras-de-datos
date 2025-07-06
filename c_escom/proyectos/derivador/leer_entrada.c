@@ -96,7 +96,6 @@ int parentesis(char **C)
     init(&p);
     while(*C)/*mientras el valor de la
     isesima posicion sea diferenete de NULL*/
-    
     {
         if (strcmp(*C,"(")==0)
         /*si lo apuntado es un parentesis
