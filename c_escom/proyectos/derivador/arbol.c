@@ -160,7 +160,7 @@ struct nodoarbol* derivada(struct nodoarbol* raiz)
         return crearnodoarbolbinario("*", coef, potencia);
     }
 
-    if(esfuncion(raiz->der->valor) && esfuncion(raiz->izq->valor))
+    if(esfuncion(raiz->der->valor)  && esfuncion(raiz->izq->valor))
     {
         struct nodoarbol* l=crearnodoarbolbinario("ln",copiar_subarbol(raiz->izq),NULL);
         struct nodoarbol* r=crearnodoarbolbinario("*",l,raiz->der);
@@ -178,4 +178,151 @@ struct nodoarbol* derivada(struct nodoarbol* raiz)
         return crearnodoarbol("0");
     }
     }
+}
+
+struct nodoarbol* simplificar(struct nodoarbol* raiz)
+{
+    if (!raiz) return NULL;
+
+    raiz->izq = simplificar(raiz->izq);
+    raiz->der = simplificar(raiz->der);
+
+    // Simplificación de suma
+    if (strcmp(raiz->valor, "+") == 0) {
+        if (raiz->izq && strcmp(raiz->izq->valor, "0") == 0) {
+            struct nodoarbol* temp = raiz->der;
+            free(raiz->valor);
+            free(raiz);
+            return temp;
+        }
+        if (raiz->der && strcmp(raiz->der->valor, "0") == 0) {
+            struct nodoarbol* temp = raiz->izq;
+            free(raiz->valor);
+            free(raiz);
+            return temp;
+        }
+    }
+
+    // Simplificación de multiplicación
+    if (strcmp(raiz->valor, "*") == 0) {
+        if ((raiz->izq && strcmp(raiz->izq->valor, "0") == 0) ||
+            (raiz->der && strcmp(raiz->der->valor, "0") == 0)) {
+            liberararb(raiz->izq);
+            liberararb(raiz->der);
+            free(raiz->valor);
+            free(raiz);
+            return crearnodoarbol("0");
+        }
+        if (raiz->izq && strcmp(raiz->izq->valor, "1") == 0) {
+            struct nodoarbol* temp = raiz->der;
+            free(raiz->valor);
+            free(raiz);
+            return temp;
+        }
+        if (raiz->der && strcmp(raiz->der->valor, "1") == 0) {
+            struct nodoarbol* temp = raiz->izq;
+            free(raiz->valor);
+            free(raiz);
+            return temp;
+        }
+    }
+
+    // Simplificación de potencia
+    if (strcmp(raiz->valor, "^") == 0) {
+        if (raiz->der && strcmp(raiz->der->valor, "1") == 0) {
+            struct nodoarbol* temp = raiz->izq;
+            free(raiz->valor);
+            free(raiz->der);
+            free(raiz);
+            return temp;
+        }
+        if (raiz->der && strcmp(raiz->der->valor, "0") == 0) {
+            liberararb(raiz->izq);
+            free(raiz->valor);
+            free(raiz->der);
+            free(raiz);
+            return crearnodoarbol("1");
+        }
+    }
+
+    return raiz;
+}
+
+void imprimir_infijolatex(struct nodoarbol* raiz) 
+{
+    if (!raiz) return;
+
+    // Funciones unarias como \sen, \cos, \ln
+    if ( strcmp(raiz->valor, "cos") == 0 || strcmp(raiz->valor, "ln") == 0) 
+    {
+        printf("\\left(\\%s", raiz->valor);
+        imprimir_infijolatex(raiz->izq);
+        printf("\\right)");
+        return;
+    }
+    
+    if ( strcmp(raiz->valor, "sen") == 0) 
+    {
+        printf("\\left(\\sin");
+        imprimir_infijolatex(raiz->izq);
+        printf("\\right)");
+        return;
+    }
+
+    // Operadores binarios
+    if (raiz->izq && raiz->der) {
+        printf("\\left(");
+        
+
+        // Imprimir operador en formato LaTeX
+        if (strcmp(raiz->valor, "*") == 0)
+        {
+            imprimir_infijolatex(raiz->izq);
+            printf("\\cdot ");
+        }
+        else if (strcmp(raiz->valor, "/") == 0)
+        {
+            printf("\\frac{");
+            imprimir_infijolatex(raiz->izq);
+            printf("}");
+        }
+        else if (strcmp(raiz->valor, "^") == 0)
+        {
+            imprimir_infijolatex(raiz->izq);
+            printf("^{");
+        }
+        else
+        {
+            imprimir_infijolatex(raiz->izq);
+            printf("%s", raiz->valor);  // +, -, etc.
+        }
+
+        // Casos especiales como fracciones y potencias
+        if (strcmp(raiz->valor, "/") == 0) 
+        {
+            printf("{");
+            imprimir_infijolatex(raiz->der);
+            printf("}");
+        } 
+        else if (strcmp(raiz->valor, "^") == 0) 
+        {
+            imprimir_infijolatex(raiz->der);
+            printf("}");
+        } 
+        else 
+        {
+            imprimir_infijolatex(raiz->der);
+        }
+
+        printf("\\right)");
+        return;
+    }
+
+    // Hoja (número o variable)
+    if(strcmp(raiz->valor,"x")==0)
+    {
+        printf("(%s)",raiz->valor);
+        return;
+    }
+    printf("%s", raiz->valor);
 }

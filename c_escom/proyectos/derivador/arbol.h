@@ -12,3 +12,5 @@ void imprimir_infijo(struct nodoarbol* raiz);
 struct nodoarbol* crearnodoarbolbinario(char*valor,struct nodoarbol* izq,struct nodoarbol* der);
 struct nodoarbol* derivada(struct nodoarbol* raiz);
 struct nodoarbol* copiar_subarbol(struct nodoarbol* raiz);
+struct nodoarbol* simplificar(struct nodoarbol* raiz);
+void imprimir_infijolatex(struct nodoarbol* raiz);

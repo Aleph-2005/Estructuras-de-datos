@@ -22,7 +22,11 @@ int main()
         imprimir(new2);
         printf("\n");
         printf("Derivada:\n");
-        imprimir_infijo(derivada(raiz));
+        raiz=simplificar(derivada(raiz));
+        imprimir_infijo(raiz);
+        printf("\n");
+        printf("Notacion en latex\n");
+        imprimir_infijolatex(raiz);
         liberararb(raiz);
         liberar(new);
         liberar(new2);
