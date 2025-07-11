@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "queue_DIN.h"
-#include <malloc.h>
+#include <stdlib.h>
  
 void init(struct queue* p)
 {

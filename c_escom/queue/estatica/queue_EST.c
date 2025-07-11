@@ -31,7 +31,7 @@ void encolar(struct queue *p, void*val)
 {
     if(isfull(p))
     {
-        printf("La pila esta llena");
+        printf("La cola esta llena");
     }
     if(isEmpty(p))
     {

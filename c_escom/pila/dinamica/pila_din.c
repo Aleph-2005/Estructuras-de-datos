@@ -1,5 +1,5 @@
 # include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 # include "pila_din.h"
 
 void init(struct pila *p)
