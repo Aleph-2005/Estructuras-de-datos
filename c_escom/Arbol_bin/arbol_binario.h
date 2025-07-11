@@ -10,3 +10,4 @@ struct nodo_arbol* crearnodoapuntado(void* val,struct nodo_arbol* izq,struct nod
 void inorderDFS(struct nodo_arbol* raiz,void (print_type)(void *));
 void preorderDFS(struct nodo_arbol* raiz,void (print_type)(void *));
 void postorderDFS(struct nodo_arbol* raiz,void (print_type)(void *));
+void BFS(struct nodo_arbol* raiz,void (print_type)(void *));

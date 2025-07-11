@@ -39,30 +39,39 @@ struct nodo_arbol* crearnodoapuntado(void* val,struct nodo_arbol* izq,struct nod
 
 void inorderDFS(struct nodo_arbol* raiz,void (print_type)(void *))
 {
-    inorder(raiz->izq,print_type);
-    printf("El nodo tiene informaci\'on:");
+    if(!raiz)
+        return;
+    inorderDFS(raiz->izq,print_type);
+    //printf("El nodo tiene informaci\'on:");
     print_type(raiz->dato);
-    inorder(raiz->der,print_type);
+    inorderDFS(raiz->der,print_type);
 }
 
 void preorderDFS(struct nodo_arbol* raiz,void (print_type)(void *))
 {
-    printf("El nodo tiene informaci\'on:");
+    if(!raiz)
+        return;
+    //printf("El nodo tiene informaci\'on:");
     print_type(raiz->dato);
-    inorder(raiz->izq,print_type);
-    inorder(raiz->der,print_type);
+    preorderDFS(raiz->izq,print_type);
+    preorderDFS(raiz->der,print_type);
 }
 
 void postorderDFS(struct nodo_arbol* raiz,void (print_type)(void *))
 {
-    inorder(raiz->izq,print_type);
-    inorder(raiz->der,print_type);
-    printf("El nodo tiene informaci\'on:");
+    if(!raiz)
+        return;
+    postorderDFS(raiz->izq,print_type);
+    postorderDFS(raiz->der,print_type);
+    
+    //printf("El nodo tiene informaci\'on:");
     print_type(raiz->dato);
 }
 
 void BFS(struct nodo_arbol* raiz,void (print_type)(void *))
 {
+    if(!raiz)
+        return;
     struct queue c;
     init(&c);
     encolar(&c,raiz);
