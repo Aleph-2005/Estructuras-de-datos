@@ -30,6 +30,21 @@ struct nodoarbol* crearnodoarbol(char*valor)
     liberararb(raiz->der);
     free(raiz);
 }
+int esfuncion(char* l)
+{
+    if(strcmp(l,"x")==0|| strcmp(l,"cos")==0 || strcmp(l,"sen")==0 || strcmp(l,"ln")==0)
+        return 1;
+    return 0;
+}
+
+int esoperador(char*l)
+{
+    if (strcmp(l, "+") == 0 || strcmp(l, "-") == 0 ||
+    strcmp(l, "*") == 0 || strcmp(l, "/") == 0 ||
+    strcmp(l, "^") == 0)
+        return 1;
+    return 0;
+}
 
 struct nodoarbol* construir_arbol_postfijo(char* tokens[]) 
 {
@@ -37,9 +52,7 @@ struct nodoarbol* construir_arbol_postfijo(char* tokens[])
     init(&pila);
     int i = 0;
     while (tokens[i]) {
-        if (strcmp(tokens[i], "+") == 0 || strcmp(tokens[i], "-") == 0 ||
-        strcmp(tokens[i], "*") == 0 || strcmp(tokens[i], "/") == 0 ||
-        strcmp(tokens[i], "^") == 0)
+        if (esoperador(tokens[i]))
         {
             struct nodoarbol* der = (struct nodoarbol*)pop(&pila);
             struct nodoarbol* izq = (struct nodoarbol*)pop(&pila);
@@ -97,12 +110,7 @@ struct nodoarbol* copiar_subarbol(struct nodoarbol* raiz)
     cop->der=copiar_subarbol(raiz->der);
     return cop;
 }
-int esfuncion(char* l)
-{
-    if(strcmp(l,"x")==0|| strcmp(l,"cos")==0 || strcmp(l,"sen")==0 || strcmp(l,"ln")==0)
-        return 1;
-    return 0;
-}
+
 
 struct nodoarbol* derivada(struct nodoarbol* raiz)
 {
@@ -159,7 +167,14 @@ struct nodoarbol* derivada(struct nodoarbol* raiz)
         struct nodoarbol* potencia = crearnodoarbolbinario("^", copiar_subarbol(raiz->izq), crearnodoarbol(nuevo_exponente));
         return crearnodoarbolbinario("*", coef, potencia);
     }
-
+    if (strcmp(raiz->izq->valor, "x") == 0 && isalpha(*(raiz->der->valor)) && !esfuncion(raiz->der->valor))
+    {
+        char nuevo_exponente[10];
+        sprintf(nuevo_exponente, "%s-%d",raiz->der->valor,1);
+        struct nodoarbol* coef = crearnodoarbolbinario(raiz->der->valor, NULL, NULL);
+        struct nodoarbol* potencia = crearnodoarbolbinario("^", copiar_subarbol(raiz->izq), crearnodoarbol(nuevo_exponente));
+        return crearnodoarbolbinario("*", coef, potencia);
+    }
     if(esfuncion(raiz->der->valor)  && esfuncion(raiz->izq->valor))
     {
         struct nodoarbol* l=crearnodoarbolbinario("ln",copiar_subarbol(raiz->izq),NULL);

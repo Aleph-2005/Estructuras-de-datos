@@ -62,3 +62,15 @@ void imprimircola(struct queue* p,void (print_tp)(void*))
         }
     }
 }
+
+int len(struct queue *p)
+{
+    int n=0;
+    struct Nodo* tmp=p->frente;
+    while(tmp)
+    {
+        tmp=tmp->siguiente;
+        n++;
+    }
+    return n;
+}

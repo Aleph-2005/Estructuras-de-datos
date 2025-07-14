@@ -11,3 +11,9 @@ void inorderDFS(struct nodo_arbol* raiz,void (print_type)(void *));
 void preorderDFS(struct nodo_arbol* raiz,void (print_type)(void *));
 void postorderDFS(struct nodo_arbol* raiz,void (print_type)(void *));
 void BFS(struct nodo_arbol* raiz,void (print_type)(void *));
+struct queue LVO(struct nodo_arbol* raiz);
+int height(struct nodo_arbol *root);
+int max(int a,int b);
+int getLevel(struct nodo_arbol*root, void* target,int level,int (*cmp)(void*, void*));
+int buscarnodo(struct nodo_arbol*root,void*target,int (*cmp)(void*,void*));
+
