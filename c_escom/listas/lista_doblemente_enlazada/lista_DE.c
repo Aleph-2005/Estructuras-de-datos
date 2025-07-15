@@ -138,7 +138,8 @@ int eliminarfrente(struct lista* p){
     return valor;
 }
 
-int eliminarFinal(struct lista*p){
+int eliminarFinal(struct lista*p)
+{
     if (isempty(p))
     {
        printf("NO le sabes");

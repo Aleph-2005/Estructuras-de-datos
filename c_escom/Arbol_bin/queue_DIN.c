@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "queue_DIN.h"
-#include <malloc.h>
+#include <stdlib.h>
  
 void init(struct queue* p)
 {
@@ -61,6 +61,12 @@ void imprimircola(struct queue* p,void (print_tp)(void*))
             nuevo=nuevo->siguiente;
         }
     }
+}
+
+void vaciar(struct queue*p)
+{
+    while(!isempty(p))
+        desencolar(p);
 }
 
 int len(struct queue *p)

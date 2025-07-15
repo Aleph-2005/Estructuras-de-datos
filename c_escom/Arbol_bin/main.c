@@ -45,22 +45,50 @@ int main()
     struct queue lvo=LVO(root);
     while (!isempty(&lvo)) 
     {
-        int **r = (int **)desencolar(&lvo);
-        if (!r) {
+        void **r = (void **)desencolar(&lvo);
+        if (!r) 
+        {
             printf("[nivel vacío]\n");
             continue;
         }
         printf("[ ");
         int i = 0;
-        while (r[i]) {
-            printf("%d ", *(r[i]));  // r[i] debe ser puntero a int
+        while (r[i]) 
+        {
+            print_tp(r[i]);
             i++;
         }
         printf("]\n");
-        //free(r);  // Liberar si fue asignado dinámicamente
     }
     printf("%d\n",height(root));
     printf("%d\n",getLevel(root,&d,1,cmp));
     printf("%d\n",buscarnodo(root,&j,cmp));
-    
+    struct nodo_arbol *padre=(struct nodo_arbol*)findparent(root,&b,NULL,cmp);
+    print_tp(padre->dato);
+    printf("\n");
+    struct nodo_arbol *nuevo=copiar_subarbol(dos);
+    struct queue lvo2=LVO(nuevo);
+    while (!isempty(&lvo2)) 
+    {
+        void **r = (void **)desencolar(&lvo2);
+        if (!r) 
+        {
+            printf("[nivel vacío]\n");
+            continue;
+        }
+        printf("[ ");
+        int i = 0;
+        while (r[i]) 
+        {
+            print_tp(r[i]);  // r[i] debe ser puntero a int
+            i++;
+        }
+        printf("]\n");
+    }
+
+    struct queue leafs=leaf(root);
+    imprimircola(&leafs,print_tp);
+    vaciar(&lvo);
+    vaciar(&lvo2);
+    vaciar(&leafs);
 }

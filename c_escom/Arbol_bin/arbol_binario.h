@@ -16,4 +16,8 @@ int height(struct nodo_arbol *root);
 int max(int a,int b);
 int getLevel(struct nodo_arbol*root, void* target,int level,int (*cmp)(void*, void*));
 int buscarnodo(struct nodo_arbol*root,void*target,int (*cmp)(void*,void*));
+void* findparent(struct nodo_arbol*root,void* target,void* padre,int (*cmp)(void*,void*));
+struct nodo_arbol* copiar_subarbol(struct nodo_arbol* raiz);
+struct queue leaf(struct nodo_arbol* raiz);
+
 

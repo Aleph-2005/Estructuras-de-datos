@@ -62,3 +62,21 @@ void imprimircola(struct queue* p,void (print_tp)(void*))
         }
     }
 }
+
+void vaciar(struct queue*p)
+{
+    while(!isempty(p))
+        desencolar(p);
+}
+
+int len(struct queue *p)
+{
+    int n=0;
+    struct Nodo* tmp=p->frente;
+    while(tmp)
+    {
+        tmp=tmp->siguiente;
+        n++;
+    }
+    return n;
+}

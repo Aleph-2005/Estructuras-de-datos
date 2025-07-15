@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "arbol_binario.h"
 #include "queue_DIN.h"
 
@@ -103,9 +102,11 @@ struct queue LVO(struct nodo_arbol* raiz)
     init(&lvo);
     struct queue c;
     init(&c);
-    if (!raiz) return lvo;
+    if (!raiz) 
+        return lvo;
     encolar(&c, raiz);
-    while (!isempty(&c)) {
+    while (!isempty(&c)) 
+    {
         int nivel_len = len(&c);
         void **nivel_datos = malloc((nivel_len+1) * sizeof(void*));
         for (int i = 0; i < nivel_len; i++) 
@@ -144,6 +145,7 @@ int getLevel(struct nodo_arbol*root, void* target,int level,int (*cmp)(void*, vo
         return leftLevel;
     return getLevel(root->der, target, level + 1,cmp);
 }
+
 int buscarnodo(struct nodo_arbol*root,void*target,int (*cmp)(void*,void*))
 {
     if(!root)
@@ -157,4 +159,61 @@ int buscarnodo(struct nodo_arbol*root,void*target,int (*cmp)(void*,void*))
     if(r)
         return 1;
     return 0;
+}
+
+void* findparent(struct nodo_arbol*root,void* target,void* padre,int (*cmp)(void*,void*))
+{
+    if(!root)
+        return NULL;
+    if(cmp(target,root->dato))
+        return padre;
+    void* izq=findparent(root->izq,target,root,cmp);
+    if(izq)
+        return izq;
+    void* der=findparent(root->der,target,root,cmp);
+    if(der)
+        return der;
+    return NULL;
+}
+
+struct nodo_arbol* copiar_subarbol(struct nodo_arbol* raiz)
+{
+    if(!raiz)
+        return NULL;
+    struct nodo_arbol*cop=crearnodo(raiz->dato);
+    cop->izq=copiar_subarbol(raiz->izq);
+    cop->der=copiar_subarbol(raiz->der);
+    return cop;
+}
+
+struct queue leaf(struct nodo_arbol* raiz)
+{
+    struct queue leafs;
+    init(&leafs);
+    if(!raiz)
+        return leafs;
+    if(!raiz->der && !raiz->izq)
+    {
+        encolar(&leafs,raiz->dato);
+        return leafs;
+    }
+
+    if(raiz->izq)
+    {
+        struct queue left=leaf(raiz->izq);
+        while(!isempty(&left))
+        {
+            encolar(&leafs,desencolar(&left));
+        }
+    }
+
+    if(raiz->der)
+    {
+       struct queue der=leaf(raiz->der);
+        while(!isempty(&der))
+        {
+            encolar(&leafs,desencolar(&der));
+        }
+    }
+    return leafs;
 }
