@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lista_SE.h"
+void print_tp(void *l)
+{
+    printf("%d  ",*(int*)l);
+}
 
 int main()
 {
@@ -8,15 +12,18 @@ int main()
     init(&p);
     for(int i=0;i<10;i++)
     {
-        insertinicio(&p,i);
-        printf(" lista: %d\n",i);
-        imprimirlista(&p);
+        int *dato = (int *)malloc(sizeof(int));
+        *dato = i;
+        insertinicio(&p,dato);
     }
-    insertn(&p,34,8);
+    int* a;
+    *a=8;
+    insertn(&p,a,3);
     printf("ahora\n");
-    imprimirlista(&p);
+    imprimirlista(&p,print_tp);
     printf("ahora_2\n");
-    printf("%d\n",eliminarPosicion(&p,3));
-    imprimirlista(&p);
+    print_tp(eliminarPosicion(&p,3));
+    printf("\n");
+    imprimirlista(&p,print_tp);
     return 0;
 }

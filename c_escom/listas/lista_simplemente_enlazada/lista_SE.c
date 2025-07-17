@@ -14,7 +14,7 @@ int isempty(struct lista* p)
     return 0;
 }
 
-struct nodo* crearnodo(int dat)
+struct nodo* crearnodo(void* dat)
 {
     struct nodo* nuevo=(struct nodo*)malloc(sizeof(struct nodo));
     nuevo->dato=dat;
@@ -22,7 +22,7 @@ struct nodo* crearnodo(int dat)
     return nuevo;
 }
 
-void insertinicio(struct lista* p,int valor)
+void insertinicio(struct lista* p,void* valor)
 {
     struct nodo* nuevo=crearnodo(valor);
     if(isempty(p))
@@ -34,7 +34,7 @@ void insertinicio(struct lista* p,int valor)
     }
 }
 
-void insertfinal(struct lista* p,int valor)
+void insertfinal(struct lista* p,void* valor)
 {
     struct nodo*nuevo=crearnodo(valor);
     if(isempty(p))
@@ -48,7 +48,7 @@ void insertfinal(struct lista* p,int valor)
     }
 }
 
-void insertn(struct lista* p,int valor,int n)
+void insertn(struct lista* p,void* valor,int n)
 {
     struct nodo*nuevo=crearnodo(valor);
     if(isempty(p))
@@ -72,7 +72,7 @@ void insertn(struct lista* p,int valor,int n)
     }
 }
 
-void imprimirlista(struct lista*p)
+void imprimirlista(struct lista*p,void(print_tp)(void*))
 {
     struct nodo* tmp=p->frente;
     if(isempty(p))
@@ -81,20 +81,20 @@ void imprimirlista(struct lista*p)
     {
         while(tmp!=NULL)
         {
-            printf("-> %d\n",tmp->dato);
+            print_tp(tmp->dato);
             tmp=tmp->siguiente;
         }
         printf("->/0\n");
     }
 }
 
-int eliminarfrente(struct lista* p){
+void* eliminarfrente(struct lista* p){
     if (isempty(p))
     {
        printf("NO se puede sacar nada");
-       return -1;/* code */
+       return NULL;/* code */
     }
-    int valor =p->frente->dato;
+    void* valor =p->frente->dato;
     struct nodo* tmp=p->frente;
     p->frente=tmp->siguiente;
     free(tmp);
@@ -102,20 +102,20 @@ int eliminarfrente(struct lista* p){
     return valor;
 }
 
-int eliminarFinal(struct lista*p){
+void* eliminarFinal(struct lista*p){
     int valor;
     
     if (isempty(p))
     {
        printf("NO le sabes");
-       return -1;/* code */
+       return NULL;/* code */
     }
 
     struct nodo* tmp=p->frente;
 
     if ((p->frente)->siguiente == NULL)
     {
-       int valor = p->frente-> dato;
+       void* valor = p->frente-> dato;
        p->frente=NULL;
        free(tmp);
        return valor;/* code */
@@ -127,19 +127,19 @@ int eliminarFinal(struct lista*p){
        tmp = tmp->siguiente;
      }
      struct nodo* aux=tmp->siguiente;
-     int valor= aux-> dato;
+     void* valor= aux-> dato;
      tmp->siguiente=NULL;
      free(aux);
      return valor;   /* code */
     }
 }
 
-int eliminarPosicion(struct lista* p, int n)
+void* eliminarPosicion(struct lista* p, int n)
 {
     if (isempty(p))
     {
        printf("Lista vacia");
-       return -1;  
+       return NULL;  
     }
     
     if(n==0)
@@ -154,12 +154,12 @@ int eliminarPosicion(struct lista* p, int n)
     if(cont<n-1)
     {
         printf("No se puede eliminar esa posicion");
-        return -1;
+        return NULL;
     }
     else
     {
         struct nodo*aux=tmp->siguiente;
-        int valor=aux->dato;
+        void* valor=aux->dato;
         tmp->siguiente=aux->siguiente;
         free(aux);
         return valor;

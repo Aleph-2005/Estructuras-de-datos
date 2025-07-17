@@ -1,6 +1,7 @@
-struct nodo{
-        int dato;
-        struct nodo* siguiente;  
+struct nodo
+{
+    void* dato;
+    struct nodo* siguiente;  
 };
 
 struct lista{
@@ -9,14 +10,14 @@ struct lista{
 
 void init(struct lista* p);
 int isempty(struct lista*p);
-struct nodo* crearnodo(int dato);
-void insertinicio(struct lista*p, int dato);
-void insertfinal(struct lista*p, int dato);
-void insertn(struct lista*p, int dato, int n);
-void imprimirlista(struct lista*p);
-int eliminarfrente(struct lista*p);
-int eliminarFinal(struct lista*p);
-int eliminarPosicion(struct lista *p,int n);
+struct nodo* crearnodo(void* dato);
+void insertinicio(struct lista*p, void* dato);
+void insertfinal(struct lista*p, void* dato);
+void insertn(struct lista*p, void* dato, int n);
+void imprimirlista(struct lista*p,void(print_tp)(void*));
+void* eliminarfrente(struct lista*p);
+void* eliminarFinal(struct lista*p);
+void* eliminarPosicion(struct lista *p,int n);
 
 
 
