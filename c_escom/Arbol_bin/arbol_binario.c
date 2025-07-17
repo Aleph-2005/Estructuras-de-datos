@@ -202,18 +202,115 @@ struct queue leaf(struct nodo_arbol* raiz)
     {
         struct queue left=leaf(raiz->izq);
         while(!isempty(&left))
-        {
             encolar(&leafs,desencolar(&left));
-        }
     }
 
     if(raiz->der)
     {
        struct queue der=leaf(raiz->der);
         while(!isempty(&der))
-        {
             encolar(&leafs,desencolar(&der));
-        }
     }
     return leafs;
+}
+
+struct nodo_arbol* insert_nodo(struct nodo_arbol* root,void* dato)
+{
+    if(!root)
+    {
+        root=crearnodo(dato);
+        return root;
+    }
+    struct queue q;
+    init(&q);
+    encolar(&q,root);
+    while(!isempty(&q))
+    {
+        struct nodo_arbol* nodo=(struct nodo_arbol*)desencolar(&q);
+        if(nodo->izq)
+            encolar(&q,nodo->izq);
+        else
+        {
+            nodo->izq=crearnodo(dato);
+            return root;
+        }
+        if(nodo->der)
+            encolar(&q,nodo->der);
+        else
+        {
+            nodo->der=crearnodo(dato);
+            return root;
+        }
+    }
+}
+
+void borrar_masprofundo(struct nodo_arbol* root,struct nodo_arbol* dir)
+{
+    struct queue q;
+    init(&q);
+    encolar(&q,root);
+    struct nodo_arbol* tmp;
+    while (!isempty(&q))
+    {
+        tmp=(struct nodo_arbol*)desencolar(&q);
+        if(tmp==dir)
+        {
+            free(dir);
+            return;
+        }
+        if(tmp->der)
+        {
+            if(tmp->der==dir)
+            {
+                tmp->der=NULL;
+                free(dir);
+                return;
+            }
+            encolar(&q,tmp->der);
+        }
+        if(tmp->izq)
+        {
+            if(tmp->izq==dir)
+            {
+                tmp->izq=NULL;
+                free(dir);
+                return;
+            }
+            encolar(&q,tmp->izq);
+        }
+
+    }
+}
+
+
+
+struct nodo_arbol* arboleliminado(struct nodo_arbol* root,void* dato)
+{
+    if(!root)
+        return NULL;
+    if(!root->izq && !root->der)
+    {
+        return NULL;
+    }
+     struct queue q;
+    init(&q);
+    encolar(&q,root);
+    struct nodo_arbol* tmp;
+    struct nodo_arbol* buscado=NULL;
+    while (!isempty(&q))
+    {
+        tmp=(struct nodo_arbol*)desencolar(&q);
+        if(tmp->dato==dato)
+            buscado=tmp;
+        if(tmp->izq)
+            encolar(&q,tmp->izq);
+        if(tmp->der)
+            encolar(&q,tmp->der);
+    }
+    if(buscado)
+    {
+        buscado->dato=tmp->dato;
+        borrar_masprofundo(root,tmp);
+    }
+    return root;
 }

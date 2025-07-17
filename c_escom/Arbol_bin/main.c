@@ -7,7 +7,10 @@ void print_tp(void *l)
 {
     printf("%d  ",*(int*)l);
 }
-
+void print_tp2(void *l)
+{
+    printf("%d\n",*(int*)l);
+}
 int cmp(void* l,void* r)
 {
     if(*(int*)l==*(int*)r)
@@ -88,7 +91,48 @@ int main()
 
     struct queue leafs=leaf(root);
     imprimircola(&leafs,print_tp);
+    printf("\n");
+    insert_nodo(root,&j);
+    struct queue lvo3=LVO(root);
+    while (!isempty(&lvo3)) 
+    {
+        void **r = (void **)desencolar(&lvo3);
+        if (!r) 
+        {
+            printf("[nivel vacío]\n");
+            continue;
+        }
+        printf("[ ");
+        int i = 0;
+        while (r[i]) 
+        {
+            print_tp(r[i]);  // r[i] debe ser puntero a int
+            i++;
+        }
+        printf("]\n");
+    }
+    arboleliminado(root,&c);
+    struct queue lvo4=LVO(root);
+     while (!isempty(&lvo4)) 
+    {
+        void **r = (void **)desencolar(&lvo4);
+        if (!r) 
+        {
+            printf("[nivel vacío]\n");
+            continue;
+        }
+        printf("[ ");
+        int i = 0;
+        while (r[i]) 
+        {
+            print_tp(r[i]);  // r[i] debe ser puntero a int
+            i++;
+        }
+        printf("]\n");
+    }
     vaciar(&lvo);
     vaciar(&lvo2);
     vaciar(&leafs);
+    vaciar(&lvo3);
+    vaciar(&lvo4);
 }

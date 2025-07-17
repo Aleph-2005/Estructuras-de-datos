@@ -19,5 +19,6 @@ int buscarnodo(struct nodo_arbol*root,void*target,int (*cmp)(void*,void*));
 void* findparent(struct nodo_arbol*root,void* target,void* padre,int (*cmp)(void*,void*));
 struct nodo_arbol* copiar_subarbol(struct nodo_arbol* raiz);
 struct queue leaf(struct nodo_arbol* raiz);
-
-
+struct nodo_arbol* insert_nodo(struct nodo_arbol* root,void* dato);
+void borrar_masprofundo(struct nodo_arbol*root,struct nodo_arbol*dir);
+struct nodo_arbol* arboleliminado(struct nodo_arbol* root,void* dato);
