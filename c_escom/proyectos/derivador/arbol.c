@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 #include "arbol.h"
 #include "pila_char_ptr.h"
 
@@ -340,4 +341,132 @@ void imprimir_infijolatex(struct nodoarbol* raiz)
         return;
     }
     printf("%s", raiz->valor);
+}
+
+double aplicarfuncion(char*l,char* arg)
+{
+    if(strcmp("sen",l)==0)
+    {
+       return sin(strtod(arg,NULL));
+    }
+    if(strcmp("cos",l)==0)
+    {
+       return cos(strtod(arg,NULL));
+    }
+    if(strcmp("ln",l)==0)
+    {
+        if(atof(arg)<0)
+            return NAN;
+        return log(atof(arg));
+    }
+    return NAN;
+}
+
+double aplicaroperacion(char*l,char*izq,char*der)
+{
+    double valizq=strtod(izq,NULL);
+    double valder=strtod(der,NULL);
+    if(strcmp(l,"^")==0)
+    {
+        return pow(valizq,valder);
+    }
+    if(strcmp(l,"+")==0)
+    {
+        return valder+valizq;
+    }
+    if(strcmp(l,"-")==0)
+    {
+        return valder-valizq;
+    }
+    if(strcmp(l,"*")==0)
+    {
+        return valder*valizq;
+    }
+    if(strcmp(l,"/")==0)
+    {
+        if(valder==0)
+            return NAN;
+        return valizq/valder;
+    }
+    return NAN;
+}
+
+
+int esNumerico(const char *cadena) 
+{
+    if (cadena == NULL || *cadena == '\0') 
+        return 0;
+    // Ignorar espacios iniciales
+    while (isspace(*cadena)) cadena++;
+
+    char *fin;
+    strtod(cadena, &fin);
+
+    // Ignorar espacios finales
+    while (isspace(*fin)) fin++;
+
+    // Si llegamos al final, la cadena es numérica
+    if(!*fin)
+        return 1;
+    return 0;
+}
+
+char* evaluarArbolComoCadena(struct nodoarbol* root,double y) 
+{
+    if (!root) 
+        return strdup("");
+    char* izq = evaluarArbolComoCadena(root->izq,y);
+    char* der = evaluarArbolComoCadena(root->der,y);
+    char* resultado = NULL;
+
+    if(root->izq && root->der)
+    {
+        if (esNumerico(izq) && esNumerico(der)) 
+        {
+            double val = aplicaroperacion(root->valor, izq, der);
+            if (isinf(val)) 
+            {
+                printf("Excediste el rango de pow, imposible valuar\n");
+                return NULL;
+            }
+            resultado = malloc(64);
+            snprintf(resultado, 64, "%g", val);
+        }
+        else 
+        {
+            size_t len = strlen(izq) + strlen(root->valor) + strlen(der) + 6;
+            resultado = malloc(len);
+            snprintf(resultado, len, "(%s %s %s)", izq, root->valor, der);
+        }
+    }
+    if(strcmp(root->valor, "sen") == 0 || strcmp(root->valor, "cos") == 0 || strcmp(root->valor, "ln") == 0)
+    {
+        if (esNumerico(izq)) 
+        {
+            double val = aplicarfuncion(root->valor, izq);
+            if (isnan(val)) 
+                printf("La Función '%s' de '%s' dio NaN\n", root->valor, izq);
+            resultado = malloc(64);
+            snprintf(resultado, 64, "%g", val);
+        } 
+        else 
+        {
+            size_t len = strlen(root->valor) + strlen(izq) + 4;
+            resultado = malloc(len);
+            snprintf(resultado, len, "%s(%s)", root->valor, izq);
+        }
+    }
+    if (!root->izq && !root->der) 
+    { // Nodo hoja
+        if (strcmp(root->valor, "x") == 0) 
+        {
+            resultado = malloc(32);
+            snprintf(resultado, 32, "%g", y);
+        }
+        else 
+            resultado = strdup(root->valor);
+    }
+    free(izq);
+    free(der);
+    return resultado;
 }

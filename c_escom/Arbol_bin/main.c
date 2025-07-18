@@ -113,7 +113,7 @@ int main()
     }
     arboleliminado(root,&c);
     struct queue lvo4=LVO(root);
-     while (!isempty(&lvo4)) 
+    while (!isempty(&lvo4)) 
     {
         void **r = (void **)desencolar(&lvo4);
         if (!r) 

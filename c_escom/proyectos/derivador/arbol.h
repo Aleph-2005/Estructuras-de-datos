@@ -14,3 +14,7 @@ struct nodoarbol* derivada(struct nodoarbol* raiz);
 struct nodoarbol* copiar_subarbol(struct nodoarbol* raiz);
 struct nodoarbol* simplificar(struct nodoarbol* raiz);
 void imprimir_infijolatex(struct nodoarbol* raiz);
+double aplicarfuncion(char*l,char* arg);
+double aplicaroperacion(char*l,char*izq,char*der);
+int esNumerico(const char *cadena);
+char* evaluarArbolComoCadena(struct nodoarbol* root,double y);

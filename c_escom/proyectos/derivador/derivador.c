@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "pila_char_ptr.h"
 #include <string.h>
+#include <stdlib.h>
 #include "arbol.h"
 #include "shunting_yard.h"
 #include "leer_entrada.h"
@@ -12,8 +13,11 @@ int main()
     char l[1000];
     char* new[1000];
     char* new2[1000];
+    long double y;
     printf("Dame la funcion que quieres derivar\n");
     scanf("%s",l);
+    printf("Dame el punto en donde quieres valuar la derivada\n");
+    scanf("%Lf",&y);
     if(leer(l,new) && parentesis(new))
     {
         shuntingyard(new,&p,new2);
@@ -27,6 +31,16 @@ int main()
         printf("\n");
         printf("Notacion en latex\n");
         imprimir_infijolatex(raiz);
+        printf("\n");
+        char* valor=evaluarArbolComoCadena(raiz,y);
+        printf("La derivada en %Lf\n",y);
+        if(esNumerico(valor))
+        {
+            long double aproximado = strtod(valor,NULL);
+            printf("f'( %Lf) = %.10Lf\n", y, aproximado);
+        }
+        else
+            printf("f(%Lf)=%s",y,valor);
         liberararb(raiz);
         liberar(new);
         liberar(new2);
