@@ -159,40 +159,38 @@ struct nodoarbol* derivada(struct nodoarbol* raiz)
     }
     if (strcmp(raiz->valor, "^") == 0) 
     {
-    if (strcmp(raiz->izq->valor, "x") == 0 && isdigit(*(raiz->der->valor)) )
-    {
-        int n = atoi(raiz->der->valor);
-        char nuevo_exponente[10];
-        sprintf(nuevo_exponente, "%d", n - 1);
-        struct nodoarbol* coef = crearnodoarbolbinario(raiz->der->valor, NULL, NULL);
-        struct nodoarbol* potencia = crearnodoarbolbinario("^", copiar_subarbol(raiz->izq), crearnodoarbol(nuevo_exponente));
-        return crearnodoarbolbinario("*", coef, potencia);
-    }
-    if (strcmp(raiz->izq->valor, "x") == 0 && isalpha(*(raiz->der->valor)) && !esfuncion(raiz->der->valor))
-    {
-        char nuevo_exponente[10];
-        sprintf(nuevo_exponente, "%s-%d",raiz->der->valor,1);
-        struct nodoarbol* coef = crearnodoarbolbinario(raiz->der->valor, NULL, NULL);
-        struct nodoarbol* potencia = crearnodoarbolbinario("^", copiar_subarbol(raiz->izq), crearnodoarbol(nuevo_exponente));
-        return crearnodoarbolbinario("*", coef, potencia);
-    }
-    if(esfuncion(raiz->der->valor)  && esfuncion(raiz->izq->valor))
-    {
-        struct nodoarbol* l=crearnodoarbolbinario("ln",copiar_subarbol(raiz->izq),NULL);
-        struct nodoarbol* r=crearnodoarbolbinario("*",l,raiz->der);
-        return crearnodoarbolbinario("*",derivada(r),raiz);
-    }
+        if (strcmp(raiz->izq->valor, "x") == 0 && isdigit(*(raiz->der->valor)) )
+        {
+            int n = atoi(raiz->der->valor);
+            char nuevo_exponente[10];
+            sprintf(nuevo_exponente, "%d", n - 1);
+            struct nodoarbol* coef = crearnodoarbolbinario(raiz->der->valor, NULL, NULL);
+            struct nodoarbol* potencia = crearnodoarbolbinario("^", copiar_subarbol(raiz->izq), crearnodoarbol(nuevo_exponente));
+            return crearnodoarbolbinario("*", coef, potencia);
+        }
+        if (strcmp(raiz->izq->valor, "x") == 0 && isalpha(*(raiz->der->valor)) && !esfuncion(raiz->der->valor))
+        {
+            char nuevo_exponente[10];
+            sprintf(nuevo_exponente, "%s-%d",raiz->der->valor,1);
+            struct nodoarbol* coef = crearnodoarbolbinario(raiz->der->valor, NULL, NULL);
+            struct nodoarbol* potencia = crearnodoarbolbinario("^", copiar_subarbol(raiz->izq), crearnodoarbol(nuevo_exponente));
+            return crearnodoarbolbinario("*", coef, potencia);
+        }
+        if(esfuncion(raiz->der->valor)  && esfuncion(raiz->izq->valor))
+        {
+            struct nodoarbol* l=crearnodoarbolbinario("ln",copiar_subarbol(raiz->izq),NULL);
+            struct nodoarbol* r=crearnodoarbolbinario("*",l,raiz->der);
+            return crearnodoarbolbinario("*",derivada(r),raiz);
+        }
 
-    if(strcmp(raiz->izq->valor,"e")==0 && esfuncion(raiz->der->valor))
-    {
-        struct nodoarbol* l=crearnodoarbolbinario("^",crearnodoarbol("e"),copiar_subarbol(raiz->der));
-         return crearnodoarbolbinario("*",derivada(raiz->der),l);
-    }
+        if(strcmp(raiz->izq->valor,"e")==0 && esfuncion(raiz->der->valor))
+        {
+            struct nodoarbol* l=crearnodoarbolbinario("^",crearnodoarbol("e"),copiar_subarbol(raiz->der));
+            return crearnodoarbolbinario("*",derivada(raiz->der),l);
+        }
 
-    if(isalpha(*(raiz->izq->valor)) && isalpha(*(raiz->der->valor)))
-    {
-        return crearnodoarbol("0");
-    }
+        if(isalpha(*(raiz->izq->valor)) && isalpha(*(raiz->der->valor)))
+            return crearnodoarbol("0");
     }
 }
 

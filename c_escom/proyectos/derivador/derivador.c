@@ -37,7 +37,7 @@ int main()
         if(esNumerico(valor))
         {
             long double aproximado = strtod(valor,NULL);
-            printf("f'( %Lf) = %.10Lf\n", y, aproximado);
+            printf("f'(%Lf) = %.10Lf\n", y, aproximado);
         }
         else
             printf("f(%Lf)=%s",y,valor);
