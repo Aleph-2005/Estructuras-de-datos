@@ -11,7 +11,7 @@ Cada carpeta está organizada por lenguaje o enfoque, y **cuenta con su propio a
 Actualmente el repositorio incluye:
 
 - [`c_escom`](https://github.com/Aleph-2005/Estructuras-de-datos/tree/main/c_escom):  
-  Implementaciones en lenguaje C, orientadas a prácticas académicas del área de ingeniería en computación. Incluye estructuras clásicas como listas enlazadas, pilas y colas.
+  Implementaciones en lenguaje C, orientadas a prácticas académicas del área de ingeniería en computación. Incluye estructuras clásicas como listas enlazadas, pilas, colas,arboles binarios,conjuntos y algunos proyectos, también cuanta con los ordenamientos clásicos y las prácticas y examenes prácticos vistos en la clase de algoritmos y estructuras de datos en la ESCOM-IPN con el profesor Manuel Portillo Cedillo.
 
 > ⚠️ Este repositorio **aún no está completo**. Se encuentra en desarrollo activo y se actualizará constantemente con nuevas estructuras, lenguajes y documentación.
 
