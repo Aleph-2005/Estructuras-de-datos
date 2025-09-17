@@ -38,8 +38,9 @@ Guía paso a paso:
 https://programmerclick.com/article/9587931241/
 
 Este recurso explica cómo instalar MinGW-w64, configurar variables de entorno, y preparar VSCode para compilar y depurar programas en C.
+---------------------------
+Cada carpeta contara con archivos de cabecera .h y sus respectivos .c, ademas de un archivo main.c el cual ejemplifica el uso de la libreria, en el caso de los proyectos la dinámica es la misma, es importante que a la hora de ejecutar se ejecuten todos los archivos .c dentro de la carpeta correspondiente
 
-Conclusión
 ----------
 
 Compilar y ejecutar programas en C es sencillo tanto desde la terminal como desde VSCode, siempre que el entorno esté correctamente configurado. Usar herramientas modernas como VSCode puede facilitar la escritura, depuración y organización del código.
