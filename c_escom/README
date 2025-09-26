@@ -50,4 +50,72 @@ archivos .c desde la terminal.
 
    {
      "version": "2.0.0",
-     "tasks
+     "tasks": [
+       {
+         "label": "Compilar C",
+         "type": "shell",
+         "command": "gcc",
+         "args": [
+           "-g",
+           "main.c",
+           "-o",
+           "main.exe"
+         ],
+         "group": "build",
+         "problemMatcher": ["$gcc"]
+       }
+     ]
+   }
+
+4. Configurar archivo launch.json para depurar:
+
+   {
+     "version": "0.2.0",
+     "configurations": [
+       {
+         "name": "Depurar C",
+         "type": "cppdbg",
+         "request": "launch",
+         "program": "${workspaceFolder}/main.exe",
+         "args": [],
+         "stopAtEntry": false,
+         "cwd": "${workspaceFolder}",
+         "environment": [],
+         "externalConsole": true,
+         "MIMode": "gdb",
+         "miDebuggerPath": "C:/mingw-w64/bin/gdb.exe",
+         "setupCommands": [
+           {
+             "description": "Habilitar impresión automática",
+             "text": "-enable-pretty-printing",
+             "ignoreFailures": true
+           }
+         ]
+       }
+     ]
+   }
+
+------------------------------------------------------------
+3. COMPILAR Y EJECUTAR DESDE TERMINAL
+------------------------------------------------------------
+
+1. Compilar:
+   gcc main.c -o main.exe
+
+2. Ejecutar:
+   ./main.exe
+
+------------------------------------------------------------
+4. EJEMPLO DE CÓDIGO main.c
+------------------------------------------------------------
+
+#include <stdio.h>
+
+int main() {
+    printf("¡Hola, mundo desde C en Windows!\n");
+    return 0;
+}
+
+------------------------------------------------------------
+FIN DEL DOCUMENTO
+------------------------------------------------------------
