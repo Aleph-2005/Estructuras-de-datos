@@ -1,0 +1,53 @@
+
+============================================================
+ENTORNO DE DESARROLLO EN C CON GCC Y VSCODE EN WINDOWS
+============================================================
+
+Este documento describe cómo instalar GCC (GNU Compiler Collection) en Windows,
+configurar Visual Studio Code como entorno de desarrollo en C y compilar/ejecutar
+archivos .c desde la terminal.
+
+------------------------------------------------------------
+1. INSTALACIÓN DE GCC EN WINDOWS (MinGW-w64)
+------------------------------------------------------------
+
+1. Descargar MinGW-w64 desde:
+   https://sourceforge.net/projects/mingw-w64/
+
+2. Elegir arquitectura: x86_64
+   Versión: posix
+   Excepciones: seh
+
+3. Instalar en una ruta sin espacios, por ejemplo:
+   C:\mingw-w64
+
+4. Configurar variables de entorno:
+   - Ir a Panel de Control → Sistema → Configuración avanzada → Variables de entorno
+   - Editar la variable "Path" y agregar:
+     C:\mingw-w64\bin
+
+5. Verificar instalación en terminal (CMD o PowerShell):
+   gcc --version
+
+------------------------------------------------------------
+2. CONFIGURACIÓN DE VISUAL STUDIO CODE
+------------------------------------------------------------
+
+1. Instalar extensiones recomendadas:
+   - C/C++ (Microsoft)
+   - Code Runner (opcional)
+   - CMake Tools (opcional)
+
+2. Crear estructura de proyecto:
+
+   mi_proyecto/
+   ├── main.c
+   └── .vscode/
+       ├── tasks.json
+       └── launch.json
+
+3. Configurar archivo tasks.json para compilar:
+
+   {
+     "version": "2.0.0",
+     "tasks
