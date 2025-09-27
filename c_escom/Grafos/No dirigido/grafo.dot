@@ -1,0 +1,25 @@
+graph G {
+    layout=neato;
+    overlap=false;
+    splines=true;
+    nodesep=0.4;
+    ranksep=0.6;
+    node [
+        shape=circle,
+        style=filled,
+        fillcolor=white,
+        color=black,
+        fontcolor=black,
+        fontsize=10,
+        width=0.3,
+        height=0.3,
+        fixedsize=true
+    ];
+
+    0 -- 2;
+    0 -- 1;
+    0 -- 0;
+    1 -- 2;
+    1 -- 1;
+    2 -- 2;
+}

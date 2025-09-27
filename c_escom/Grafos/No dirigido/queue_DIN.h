@@ -1,17 +1,17 @@
-struct Nodo_q
+struct Nodo
 {
   void* dato;
-  struct Nodo_q* siguiente;
+  struct Nodo* siguiente;
 };
 
 struct queue
 {
-  struct Nodo_q*frente;
-  struct Nodo_q*final;
+  struct Nodo*frente;
+  struct Nodo*final;
 };
 
-void init_q(struct queue* p);
-int isempty_q(struct queue* p);
+void init(struct queue* p);
+int isempty_1(struct queue* p);
 void encolar(struct queue* p,void* z);
 void* desencolar(struct queue* p);
 void imprimircola(struct queue* p,void (print_tp)(void*));

@@ -2,12 +2,12 @@
 #include <stdlib.h>
 # include "pila_din.h"
 
-void init(struct pila *p)
+void init_pila(struct pila *p)
 {
     p->tope=NULL;
 }
 
-int isEmpty(struct pila* p)
+int isEmpty_pila(struct pila* p)
 {
     if(p->tope==NULL)
         return 1;
@@ -16,7 +16,7 @@ int isEmpty(struct pila* p)
 
 void push(void* l,struct pila *p)
 {
-    struct nodo* nuevo=(struct nodo*)malloc(sizeof(struct nodo));
+    struct nodo_pila* nuevo=(struct nodo_pila*)malloc(sizeof(struct nodo_pila));
     nuevo->valor=l;
     nuevo->siguiente=p->tope;
     p->tope=nuevo;
@@ -26,7 +26,7 @@ void* pop(struct pila *p)
 {
     if(isEmpty(p))
         return NULL;
-    struct nodo* tmp=p->tope;
+    struct nodo_pila* tmp=p->tope;
     void* val=tmp->valor;
     p->tope=tmp->siguiente;
     free(tmp);
@@ -39,7 +39,7 @@ void printstack(struct pila *p,void (print_tp)(void *))
         printf("Vacio\n");
     else
     {
-        struct nodo* tmp=p->tope;
+        struct nodo_pila* tmp=p->tope;
         while(tmp!=NULL)
         {
             print_tp(tmp->valor);

@@ -1,8 +1,7 @@
 struct nodo
 {
     void* dato;
-    struct nodo* siguiente;
-    int color;  
+    struct nodo* siguiente;  
 };
 
 struct lista{

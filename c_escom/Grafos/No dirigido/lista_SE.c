@@ -18,7 +18,6 @@ struct nodo* crearnodo(void* dat)
 {
     struct nodo* nuevo=(struct nodo*)malloc(sizeof(struct nodo));
     nuevo->dato=dat;
-    nuevo->color=0;
     nuevo->siguiente=NULL;
     return nuevo;
 }

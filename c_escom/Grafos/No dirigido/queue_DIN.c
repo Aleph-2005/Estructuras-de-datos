@@ -2,13 +2,13 @@
 #include "queue_DIN.h"
 #include <stdlib.h>
  
-void init_q(struct queue* p)
+void init(struct queue* p)
 {
     p->frente=NULL;
     p->final=NULL;
 }
 
-int isempty_q(struct queue* p)
+int isempty_1(struct queue* p)
 {
     if(p->frente==NULL)
         return 1;
@@ -17,7 +17,7 @@ int isempty_q(struct queue* p)
 
 void encolar(struct queue* p, void* z)
 {
-    struct Nodo_q* nuevo=(struct Nodo*)malloc(sizeof(struct Nodo_q));
+    struct Nodo* nuevo=(struct Nodo*)malloc(sizeof(struct Nodo));
     nuevo->dato=z;
     nuevo->siguiente=NULL;
     if(isempty(p))
@@ -38,7 +38,7 @@ void* desencolar(struct queue* p)
         return NULL;
     else
     {
-         struct Nodo_q* tmp=p->frente;
+         struct Nodo* tmp=p->frente;
          void* z=tmp->dato;
          p->frente=tmp->siguiente;
          if(p->frente==NULL)
@@ -50,7 +50,7 @@ void* desencolar(struct queue* p)
 
 void imprimircola(struct queue* p,void (print_tp)(void*))
 {
-    struct Nodo_q* nuevo=p->frente;
+    struct Nodo* nuevo=p->frente;
     if(isempty(p))
         printf("vacio\n");
     else
@@ -72,7 +72,7 @@ void vaciar(struct queue*p)
 int len(struct queue *p)
 {
     int n=0;
-    struct Nodo_q* tmp=p->frente;
+    struct Nodo* tmp=p->frente;
     while(tmp)
     {
         tmp=tmp->siguiente;
