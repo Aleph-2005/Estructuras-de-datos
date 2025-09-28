@@ -1,0 +1,35 @@
+graph Arbol {
+    layout=neato;
+    overlap=false;
+    splines=true;
+    nodesep=0.4;
+    ranksep=0.6;
+    node [
+        shape=circle,
+        style=filled,
+        fillcolor=white,
+        color=black,
+        fontcolor=black,
+        fontsize=10,
+        width=0.3,
+        height=0.3,
+        fixedsize=true
+    ];
+
+node [shape=circle, style=filled];
+100 [fillcolor=black, fontcolor=white];
+"100" -- "60";
+60 [fillcolor=red, fontcolor=white];
+"60" -- "21";
+21 [fillcolor=black, fontcolor=white];
+"21" -- "32";
+32 [fillcolor=red, fontcolor=white];
+"60" -- "76";
+76 [fillcolor=black, fontcolor=white];
+"100" -- "145";
+145 [fillcolor=black, fontcolor=white];
+"145" -- "110";
+110 [fillcolor=red, fontcolor=white];
+"145" -- "150";
+150 [fillcolor=red, fontcolor=white];
+}
