@@ -14,7 +14,7 @@ void imprimirgrafo(int n,struct lista* grafo)
 {
     for(int i=0;i<n;i++)
     {
-        printf("Vertice %d ",i+1);
+        printf("Vertice %d ",i);
         imprimirlista(&grafo[i],print_tp);
     }
 }
