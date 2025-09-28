@@ -314,3 +314,48 @@ struct nodo_arbol* arboleliminado(struct nodo_arbol* root,void* dato)
     }
     return root;
 }
+
+void exportar_dot(struct nodo_arbol* raiz, FILE* f) 
+{
+    if (!raiz) return;
+    if (raiz->izq) 
+    {
+        fprintf(f, "\"%d\" -- \"%d\";\n",*((int*)raiz->dato), *((int*)raiz->izq->dato));
+        exportar_dot(raiz->izq, f);
+    }
+    if (raiz->der) 
+    {
+        fprintf(f, "\"%d\" -- \"%d\";\n",*((int*)raiz->dato), *((int*)raiz->der->dato));
+        exportar_dot(raiz->der, f);
+    }
+}
+
+
+void ExportaGraphizint(struct nodo_arbol* raiz)
+{
+     FILE* f = fopen("Arbol.dot", "w");
+    if (!f) {
+        perror("No se pudo abrir el archivo");
+        return;
+    }
+    fprintf(f, "graph Arbol {\n");
+    fprintf(f, "    layout=neato;\n");
+    fprintf(f, "    overlap=false;\n");
+    fprintf(f, "    splines=true;\n");
+    fprintf(f, "    nodesep=0.4;\n");
+    fprintf(f, "    ranksep=0.6;\n");
+    fprintf(f, "    node [\n");
+    fprintf(f, "        shape=circle,\n");
+    fprintf(f, "        style=filled,\n");
+    fprintf(f, "        fillcolor=white,\n");
+    fprintf(f, "        color=black,\n");
+    fprintf(f, "        fontcolor=black,\n");
+    fprintf(f, "        fontsize=10,\n");
+    fprintf(f, "        width=0.3,\n");
+    fprintf(f, "        height=0.3,\n");
+    fprintf(f, "        fixedsize=true\n");
+    fprintf(f, "    ];\n\n");
+    exportar_dot(raiz,f);
+    fprintf(f, "}\n");
+    fclose(f);
+}

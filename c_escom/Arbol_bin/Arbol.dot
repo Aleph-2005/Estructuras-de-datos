@@ -1,0 +1,27 @@
+graph Arbol {
+    layout=neato;
+    overlap=false;
+    splines=true;
+    nodesep=0.4;
+    ranksep=0.6;
+    node [
+        shape=circle,
+        style=filled,
+        fillcolor=white,
+        color=black,
+        fontcolor=black,
+        fontsize=10,
+        width=0.3,
+        height=0.3,
+        fixedsize=true
+    ];
+
+"1" -- "2";
+"2" -- "4";
+"4" -- "8";
+"4" -- "9";
+"2" -- "5";
+"1" -- "3";
+"3" -- "6";
+"3" -- "7";
+}

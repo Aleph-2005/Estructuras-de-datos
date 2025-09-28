@@ -45,6 +45,7 @@ int main()
     tres->izq=seis;
     cuatro->izq=ocho;
     cuatro->der=nueve;
+    ExportaGraphizint(root);
     struct queue lvo=LVO(root);
     while (!isempty(&lvo)) 
     {

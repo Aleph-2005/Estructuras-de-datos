@@ -22,3 +22,6 @@ struct queue leaf(struct nodo_arbol* raiz);
 struct nodo_arbol* insert_nodo(struct nodo_arbol* root,void* dato);
 void borrar_masprofundo(struct nodo_arbol*root,struct nodo_arbol*dir);
 struct nodo_arbol* arboleliminado(struct nodo_arbol* root,void* dato);
+void exportar_dot(struct nodo_arbol* raiz, FILE* archivo);
+void ExportaGraphizint(struct nodo_arbol* raiz);
+ 
