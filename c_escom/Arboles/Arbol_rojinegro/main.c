@@ -27,5 +27,4 @@ int main()
     insert_nodo(root,g,cmp);
     insert_nodo(root,h,cmp);
     ExportaGraphizint(root);
-
 }
