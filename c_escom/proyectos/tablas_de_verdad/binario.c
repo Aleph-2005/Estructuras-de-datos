@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <math.h>
+#include "leer_prop.h"
+int* sumabinario(int* A,int tam)
+{
+   for(int i=tam-1;i>=0;i--)
+   {
+        if(A[i]==0)
+        {
+            A[i]=1;
+            return A;
+        }
+        else
+            A[i]=0;
+   }
+   return A;
+}
+
+void imprimir_arreglo(int* A,int tam )
+{
+
+    for(int i=0;i<tam;i++)
+        printf("%d ",A[i]);
+}
+
+void combinaciones(int r, int* A, char** l) {
+    int lim = (int)pow(2, r);
+
+    // Encabezado
+    printf("\nTabla de verdad:\n");
+    for (int i = 0; i < r; i++)
+        printf("v%d  | ", i + 1);  
+    printf("Res\n");
+
+    // Línea separadora
+    for (int i = 0; i < r; i++)
+        printf("----| ");
+    printf("----\n");
+
+    for (int i = 0; i < lim; i++) {
+        // Imprimir combinación
+        for (int j = 0; j < r; j++)
+            printf(" %d  | ", A[j]);
+
+        // Evaluar expresión
+        char** clon = clonar(l);
+        valores(clon, A);
+        int resultado = evaluar_postfija(clon);
+        printf(" %d\n", resultado);
+        liberar(clon);
+
+        // Preparar siguiente combinación
+        if (i < lim - 1)
+            sumabinario(A, r);
+    }
+}

@@ -1,4 +1,3 @@
-//Merge sort
 #include <stdio.h>
 
 // Merge two subarrays L and M into arr

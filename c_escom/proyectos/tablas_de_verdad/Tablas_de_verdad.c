@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "pila_char_ptr.h"
 #include <string.h>
 #include "shunting_yard_prop.h"
 #include "leer_prop.h"
+#include "binario.h"
 
 int main()
 {
@@ -18,9 +20,13 @@ int main()
         shuntingyard(new,&p,new2);
         printf("Notacion postfija\n");
         imprimir(new2);
+        int r=cantidad_de_variables(new2);
+        int* A=calloc(r,sizeof(int));
+        combinaciones(r,A,new2);
         liberar(new);
         liberar(new2);
     }
     else
         printf("Entrada invalida");
+  
 }
