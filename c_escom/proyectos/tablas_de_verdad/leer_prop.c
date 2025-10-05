@@ -83,6 +83,23 @@ int cantidad_de_variables(char** l)
     return cont;
 }
 
+char** variables(char**l)
+{
+    char** var=malloc(cantidad_de_variables(l)*sizeof(char*));
+    int c=0;
+    int i=0;
+    while(*(l+c))
+    {
+        if(isalpha((int)**(l+c)))
+        {
+            *(var+i)=strdup(*(l+c));
+            i++;
+        }
+        c++;
+    }
+    return var;
+}
+
 void valores(char**l,int*A)
 {
     int c=0;

@@ -13,7 +13,7 @@ int main()
     char l[1000];
     char* new[1000];
     char* new2[1000];
-    printf("dame tu proposicion\n");
+    printf("Dame tu proposicion\n");
     scanf("%s",l);
     if(leer(l,new)!=0)
     {
@@ -22,7 +22,7 @@ int main()
         imprimir(new2);
         int r=cantidad_de_variables(new2);
         int* A=calloc(r,sizeof(int));
-        combinaciones(r,A,new2);
+        combinaciones(r,A,new2,new);
         liberar(new);
         liberar(new2);
     }

@@ -20,35 +20,38 @@ void imprimir_arreglo(int* A,int tam )
 {
 
     for(int i=0;i<tam;i++)
-        printf("%d ",A[i]);
+        printf(" %d  |",A[i]);
 }
 
-void combinaciones(int r, int* A, char** l) {
-    int lim = (int)pow(2, r);
+void linea_separadora(int r)
+{
+    for (int i = 0; i < r; i++)
+        printf("----|");
+    printf("----\n");
+}
 
+void combinaciones(int r, int* A, char** l,char**expr) 
+{
+    int lim = (int)pow(2, r);
+    char**var=variables(l);
     // Encabezado
     printf("\nTabla de verdad:\n");
+    printf("\n");
     for (int i = 0; i < r; i++)
-        printf("v%d  | ", i + 1);  
-    printf("Res\n");
-
-    // Línea separadora
-    for (int i = 0; i < r; i++)
-        printf("----| ");
-    printf("----\n");
-
-    for (int i = 0; i < lim; i++) {
+        printf(" %s  |",*(var+i));  
+    imprimir(expr);
+    linea_separadora(r);
+    for (int i = 0; i < lim; i++) 
+    {
         // Imprimir combinación
-        for (int j = 0; j < r; j++)
-            printf(" %d  | ", A[j]);
-
+        imprimir_arreglo(A,r);
         // Evaluar expresión
         char** clon = clonar(l);
         valores(clon, A);
         int resultado = evaluar_postfija(clon);
         printf(" %d\n", resultado);
         liberar(clon);
-
+        linea_separadora(r);
         // Preparar siguiente combinación
         if (i < lim - 1)
             sumabinario(A, r);
