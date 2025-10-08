@@ -13,7 +13,7 @@ struct nodoarbol* crearnodoarbolbinario(char*valor,struct nodoarbol* izq,struct 
 struct nodoarbol* derivada(struct nodoarbol* raiz);
 struct nodoarbol* copiar_subarbol(struct nodoarbol* raiz);
 struct nodoarbol* simplificar(struct nodoarbol* raiz);
-void imprimir_infijolatex(struct nodoarbol* raiz);
+void imprimir_infijolatex_en_archivo(struct nodoarbol* raiz, FILE* archivo);
 double aplicarfuncion(char*l,char* arg);
 double aplicaroperacion(char*l,char*izq,char*der);
 int esNumerico(const char *cadena);

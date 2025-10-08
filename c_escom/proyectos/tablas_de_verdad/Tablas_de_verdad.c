@@ -23,8 +23,8 @@ int main()
         int r=cantidad_de_variables(new2);
         int* A=calloc(r,sizeof(int));
         combinaciones(r,A,new2,new);
-        liberar(new);
-        liberar(new2);
+        //liberar(new);
+        //liberar(new2;
     }
     else
         printf("Entrada invalida");

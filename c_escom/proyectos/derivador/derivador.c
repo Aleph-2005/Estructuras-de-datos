@@ -28,10 +28,7 @@ int main()
         printf("Derivada:\n");
         raiz=simplificar(derivada(raiz));
         imprimir_infijo(raiz);
-        printf("\n");
-        printf("Notacion en latex\n");
-        imprimir_infijolatex(raiz);
-        printf("\n");
+        printf("\n"); 
         char* valor=evaluarArbolComoCadena(raiz,y);
         printf("La derivada en %Lf\n",y);
         if(esNumerico(valor))
@@ -41,9 +38,23 @@ int main()
         }
         else
             printf("f(%Lf)=%s",y,valor);
-        liberararb(raiz);
-        liberar(new);
-        liberar(new2);
+        
+        FILE* archivo = fopen("derivada.tex", "w");
+        if (archivo) 
+        {
+            fprintf(archivo, "\\documentclass{article}\n\\usepackage{amsmath}\n\\begin{document}\n");
+            fprintf(archivo, "La derivada es:\n\\[\n");
+            fprintf(archivo,"f'(x)=");
+            imprimir_infijolatex_en_archivo(raiz, archivo);
+            fprintf(archivo, "\n\\]\\\\");
+            fprintf(archivo, "La derivada en el punto $x_0=%Lf$:\n\\[\n",y);
+            fprintf(archivo,"f'(%Lf)=%s",y,valor);
+            fprintf(archivo, "\n\\]\n\\end{document}");
+            fclose(archivo);    
+        }  
+        //liberararb(raiz);
+        //liberar(new);
+        //liberar(new2);
     }
     else
         printf("Entrada invalida");

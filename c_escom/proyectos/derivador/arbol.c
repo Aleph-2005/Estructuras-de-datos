@@ -262,83 +262,75 @@ struct nodoarbol* simplificar(struct nodoarbol* raiz)
     return raiz;
 }
 
-void imprimir_infijolatex(struct nodoarbol* raiz) 
+void imprimir_infijolatex_en_archivo(struct nodoarbol* raiz, FILE* archivo)
 {
-    if (!raiz) return;
+    if (!raiz || !archivo) return;
 
     // Funciones unarias como \sen, \cos, \ln
-    if ( strcmp(raiz->valor, "cos") == 0 || strcmp(raiz->valor, "ln") == 0) 
+    if (strcmp(raiz->valor, "cos") == 0 || strcmp(raiz->valor, "ln") == 0)
     {
-        printf("\\left(\\%s", raiz->valor);
-        imprimir_infijolatex(raiz->izq);
-        printf("\\right)");
+        fprintf(archivo, "\\left(\\%s", raiz->valor);
+        imprimir_infijolatex_en_archivo(raiz->izq, archivo);
+        fprintf(archivo, "\\right)");
         return;
     }
-    
-    if ( strcmp(raiz->valor, "sen") == 0) 
+
+    if (strcmp(raiz->valor, "sen") == 0)
     {
-        printf("\\left(\\sin");
-        imprimir_infijolatex(raiz->izq);
-        printf("\\right)");
+        fprintf(archivo, "\\left(\\sin");
+        imprimir_infijolatex_en_archivo(raiz->izq, archivo);
+        fprintf(archivo, "\\right)");
         return;
     }
 
     // Operadores binarios
-    if (raiz->izq && raiz->der) {
-        printf("\\left(");
-        
+    if (raiz->izq && raiz->der)
+    {
+        fprintf(archivo, "\\left(");
 
-        // Imprimir operador en formato LaTeX
         if (strcmp(raiz->valor, "*") == 0)
         {
-            imprimir_infijolatex(raiz->izq);
-            printf("\\cdot ");
+            imprimir_infijolatex_en_archivo(raiz->izq, archivo);
+            fprintf(archivo, "\\cdot ");
         }
         else if (strcmp(raiz->valor, "/") == 0)
         {
-            printf("\\frac{");
-            imprimir_infijolatex(raiz->izq);
-            printf("}");
+            fprintf(archivo, "\\frac{");
+            imprimir_infijolatex_en_archivo(raiz->izq, archivo);
+            fprintf(archivo, "}{");
+            imprimir_infijolatex_en_archivo(raiz->der, archivo);
+            fprintf(archivo, "}");
+            fprintf(archivo, "\\right)");
+            return;
         }
         else if (strcmp(raiz->valor, "^") == 0)
         {
-            imprimir_infijolatex(raiz->izq);
-            printf("^{");
+            imprimir_infijolatex_en_archivo(raiz->izq, archivo);
+            fprintf(archivo, "^{");
+            imprimir_infijolatex_en_archivo(raiz->der, archivo);
+            fprintf(archivo, "}");
+            fprintf(archivo, "\\right)");
+            return;
         }
         else
         {
-            imprimir_infijolatex(raiz->izq);
-            printf("%s", raiz->valor);  // +, -, etc.
+            imprimir_infijolatex_en_archivo(raiz->izq, archivo);
+            fprintf(archivo, "%s", raiz->valor);  // +, -, etc.
         }
 
-        // Casos especiales como fracciones y potencias
-        if (strcmp(raiz->valor, "/") == 0) 
-        {
-            printf("{");
-            imprimir_infijolatex(raiz->der);
-            printf("}");
-        } 
-        else if (strcmp(raiz->valor, "^") == 0) 
-        {
-            imprimir_infijolatex(raiz->der);
-            printf("}");
-        } 
-        else 
-        {
-            imprimir_infijolatex(raiz->der);
-        }
-
-        printf("\\right)");
+        imprimir_infijolatex_en_archivo(raiz->der, archivo);
+        fprintf(archivo, "\\right)");
         return;
     }
 
     // Hoja (número o variable)
-    if(strcmp(raiz->valor,"x")==0)
+    if (strcmp(raiz->valor, "x") == 0)
     {
-        printf("(%s)",raiz->valor);
+        fprintf(archivo, "(%s)", raiz->valor);
         return;
     }
-    printf("%s", raiz->valor);
+
+    fprintf(archivo, "%s", raiz->valor);
 }
 
 double aplicarfuncion(char*l,char* arg)
