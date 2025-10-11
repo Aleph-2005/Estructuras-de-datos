@@ -83,38 +83,78 @@ int cantidad_de_variables(char** l)
     return cont;
 }
 
-char** variables(char**l)
+int binary_search(char **arr, int size, char *target) 
 {
-    char** var=malloc(cantidad_de_variables(l)*sizeof(char*));
+    int left = 0;
+    int right = size - 1;
+
+    while (left <= right) {
+        int mid = (left + right) / 2;
+        int cmp = strcmp(arr[mid], target);
+
+        if (cmp == 0)
+            return mid;
+        else if (cmp < 0)
+            left = mid + 1;
+        else
+            right = mid - 1;
+    }
+
+    return -1; // No encontrado
+}
+
+void ordenar_agregar(char **var, int* tam,char* nuevo)
+{
+    *(var+(*tam))=strdup(nuevo);
+    (*tam)++;
+    for(int i=(*tam)-1;i>0 && strcmp(*(var+i),*(var+(i-1)))<0;i--)
+    {
+        char*tmp=*(var+i);
+        *(var+i)=*(var+(i-1));
+        *(var+(i-1))=tmp;
+    }
+}
+
+char** variables(char**l,int* tam)
+{
+    int capacidad=10;
+    char** var=malloc(capacidad*sizeof(char*));
+    (*tam)=0;
     int c=0;
     int i=0;
     while(*(l+c))
     {
-        if(isalpha((int)**(l+c)))
+        if(isalpha(**(l+c)))
         {
-            *(var+i)=strdup(*(l+c));
-            i++;
+            if(binary_search(var,(*tam),*(l+c))==-1)
+            {
+                if((*tam)>=capacidad)
+                {
+                    capacidad*=2;
+                    var=realloc(var,capacidad*sizeof(char*));
+                }
+                ordenar_agregar(var,tam,*(l+c));
+            }
         }
         c++;
     }
     return var;
 }
 
-void valores(char**l,int*A)
+void valores(char**l,int*A,char** var,int tam)
 {
     int c=0;
-    int i=0;
     while(*(l+c))
     {
         if(isalpha((int)**(l+c)))
         {
-            if(A[i]==0)
-                *(l+c)=strdup("0");
-            else
-                *(l+c)=strdup("1");
-            i++;
-        }
-        
+            int pos=binary_search(var,tam,*(l+c));
+            if(pos!=-1)
+            {
+                free(*(l+c));
+                *(l+c)=strdup(*(A+pos)==1 ?"1":"0");
+            }
+        }        
         c++;
     }
 }

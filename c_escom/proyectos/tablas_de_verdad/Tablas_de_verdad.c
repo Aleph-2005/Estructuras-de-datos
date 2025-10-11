@@ -20,9 +20,10 @@ int main()
         shuntingyard(new,&p,new2);
         printf("Notacion postfija\n");
         imprimir(new2);
-        int r=cantidad_de_variables(new2);
-        int* A=calloc(r,sizeof(int));
-        combinaciones(r,A,new2,new);
+        int tam=0;
+        char**var=variables(new2,&tam);
+        int* A=(int*)calloc(tam,sizeof(int));
+        combinaciones(tam,A,new2,new,var);
         //liberar(new);
         //liberar(new2;
     }

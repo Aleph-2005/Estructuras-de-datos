@@ -30,10 +30,10 @@ void linea_separadora(int r)
     printf("----\n");
 }
 
-void combinaciones(int r, int* A, char** l,char**expr) 
+void combinaciones(int r, int* A, char** l,char**expr,char**var) 
 {
+    int taut=0;
     int lim = (int)pow(2, r);
-    char**var=variables(l);
     // Encabezado
     printf("\nTabla de verdad:\n");
     printf("\n");
@@ -47,8 +47,10 @@ void combinaciones(int r, int* A, char** l,char**expr)
         imprimir_arreglo(A,r);
         // Evaluar expresión
         char** clon = clonar(l);
-        valores(clon, A);
+        valores(clon, A,var,r);
         int resultado = evaluar_postfija(clon);
+        if(resultado==1)
+            taut++;
         printf(" %d\n", resultado);
         liberar(clon);
         linea_separadora(r);
@@ -56,4 +58,9 @@ void combinaciones(int r, int* A, char** l,char**expr)
         if (i < lim - 1)
             sumabinario(A, r);
     }
+    printf("\n");
+    if(taut==lim)
+        printf("Es una Tautologia\n");
+    if(taut==0)
+        printf("Es una contradiccion\n");
 }

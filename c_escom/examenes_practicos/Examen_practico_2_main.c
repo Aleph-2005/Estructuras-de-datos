@@ -18,7 +18,7 @@ void bubblesort(struct lista *p)
     struct nodo* tmp=p->frente;
     while(tmp->siguiente!=NULL)
     {   
-        struct nodo*tmp_2=p->frente;
+    struct nodo*tmp_2=p->frente;
        while((tmp_2->siguiente)!=NULL)
        {
            if((tmp_2->dato)<((tmp_2->siguiente)->dato))
